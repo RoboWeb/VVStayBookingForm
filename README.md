@@ -5,7 +5,9 @@ Start Date: 2022/12/20
 
 ## Recommended Environment
 
+- [NodeJS v.16.x](https://nodejs.org/en/) + **npm v.8.3**
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
-- [NodeJS v.16](https://nodejs.org/en/) + *npm v.8.3*
+
+
 
 
