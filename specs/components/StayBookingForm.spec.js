@@ -59,6 +59,28 @@ describe("StayBookingForm component elements:", () => {
         })        
     });
 
+    describe('pseudo-input element with dates', () => {
+        let pseudoInputEl;
+
+        beforeEach(() => {
+            pseudoInputEl = wrapper.find('.date-range');
+        });
+
+        it('exists', () => {
+            expect(pseudoInputEl.exists()).toBeTruthy();
+        });
+
+        it('contain begin date', () => {
+            console.log("pseudoInputEl", pseudoInputEl.text());
+            expect(pseudoInputEl.text()).toMatch(`/${mockedProps.reservation.begin}/`);
+        });
+
+        it('contain end date', () => {
+            console.log("pseudoInputEl", pseudoInputEl.text());
+            expect(pseudoInputEl.text()).toMatch(`/${mockedProps.reservation.end}/`);
+        });
+    });
+
     describe('button `Reserve`', () => {
         let reserveBtn;
 
@@ -69,6 +91,37 @@ describe("StayBookingForm component elements:", () => {
         it('exists', () => {
             expect(reserveBtn.exists()).toBeTruthy();
         });
-    })
+
+        it('emit event after click', () => {
+            reserveBtn.trigger('click');
+            
+            expect(wrapper.emitted()).toHaveProperty('reserve');
+        })
+    });
+
+    describe('child components:', () => {
+        describe('Rating Star component', () => {
+            it('exists', () => {
+                const ratingStars = wrapper.find('rating-stars-stub');
+                expect(ratingStars.exists()).toBeTruthy();
+            });            
+        });
+        
+        describe('Calendar component', () => {
+            it('not exist before user interaction', () => {
+                const calendar = wrapper.find('calendar-stub');
+                expect(calendar.exists()).toBeFalsy();
+            });
+
+            it('exist after user interaction', () => {
+                const pseudoInputEl = wrapper.find('.date-range');
+                pseudoInputEl.trigger('click');
+
+                const calendar = wrapper.find('calendar-stub');
+                expect(calendar.exists()).toBeTruthy();
+            })
+        })
+    });
+    
     
 });
