@@ -27,27 +27,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-    .icon {
-        max-height: 11px;
-        max-width: 11px;
-        width: 100%;
-        height: auto;
-
-        &.icon-arrow {
-            &_right {
-                transform: rotate(0);
-            }
-            &_left {
-                transform: rotate(180deg);
-            }
-            &_up {
-                transform: rotate(270deg);
-            }
-            &_down {
-                transform: rotate(90deg);
-            }   
-        }
-    }
-</style>
