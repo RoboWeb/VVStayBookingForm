@@ -2,7 +2,14 @@
     <div class="stay-booking-form">
         <div class="row">
             <div class="column">
-                
+                <span class="price">{{ price }}</span>
+                <div class="rating-wrapper">
+                    <span>rating stars</span>
+                    <span class="rating-count">{{ ratings }}</span>
+                </div>
+            </div>
+            <div class="column">
+                <button id="reserveBtn" class="btn btn-tertiary">Reserve</button>
             </div>
         </div>
         <div class="row"></div>
@@ -10,6 +17,20 @@
 </template>
 
 <script>
+export default {
+    name: "StayBookingForm",
+    props: {
+        price: {
+            type: String,
+            required: true
+        },
+        ratings: {
+            type: Number,
+            required: true
+        }
+
+    }
+}
 
 </script>
 
