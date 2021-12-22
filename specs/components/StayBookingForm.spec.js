@@ -63,7 +63,7 @@ describe("StayBookingForm component elements:", () => {
         let pseudoInputEl;
 
         beforeEach(() => {
-            pseudoInputEl = wrapper.find('.date-range');
+            pseudoInputEl = wrapper.find('.pseudo-input');
         });
 
         it('exists', () => {
@@ -114,7 +114,7 @@ describe("StayBookingForm component elements:", () => {
             });
 
             it('exist after user interaction', () => {
-                const pseudoInputEl = wrapper.find('.date-range');
+                const pseudoInputEl = wrapper.find('.pseudo-input');
                 pseudoInputEl.trigger('click');
 
                 const calendar = wrapper.find('calendar-stub');

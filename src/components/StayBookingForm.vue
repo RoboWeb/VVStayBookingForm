@@ -13,10 +13,16 @@
             </div>
         </div>
         <div class="row">
-            <div class="date-range">
-                <div class="date-range_being"></div>
+            <div class="pseudo-input date-range">
+                <div class="date-range_begin pseudo-input_date">
+                    <span class="date">{{ reservation.begin }}</span>
+                    <icon-times></icon-times>
+                </div>
                 <icon-arrow></icon-arrow>
-                <div class="date-range_end"></div>
+                <div class="date-range_end pseudo-input_date">
+                    <span class="date">{{ reservation.end }}</span>
+                    <icon-times></icon-times>
+                </div>
             </div>
         </div>
     </div>
@@ -57,6 +63,8 @@ export default {
     --secondary-color: #67A65F;
     --border-color: #E1E1E1;
     --border-color-active: #D2E5D0;
+    --border-radius: 25px;
+    --border-radius-round: 50%;
 }
 
 .stay-booking-form {
@@ -68,11 +76,12 @@ export default {
     color: var(--primary-color);
     font-size: 12px;
     box-shadow: 0px 8px 24px 0px rgba(66, 68, 90, 0.25);
-    border-radius: 2rem;
+    border-radius: var(--border-radius);
     width: 100vw;
     max-width: 360px;
     margin: 2rem auto;
     padding: 20px;
+    position: relative;
 
     * {
         padding: 0;
@@ -100,6 +109,31 @@ export default {
                 align-content: flex-end;
             }
         }
+    }
+
+    .pseudo-input {
+        width: 100%;
+        border-radius: var(--border-radius);
+        border: solid 1px var(--border-color);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 40px;
+
+        // > * { background-color: lightblue;}
+
+        &_date {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: baseline;            
+        }
+    }
+
+    .date {
+        white-space: nowrap;
+        padding: 5px;
     }
 }
 

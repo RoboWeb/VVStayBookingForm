@@ -6,6 +6,7 @@
   <icon-star fill="green" filled="full"></icon-star>
   <icon-star fill="green" filled="half"></icon-star>
   <icon-star fill="green" filled="empty"></icon-star>
+  <icon-times></icon-times>
 
   <stay-booking-form 
     :price="price" 
@@ -53,6 +54,7 @@ export default {
     max-width: 11px;
     width: 100%;
     height: auto;
+    text-align: center;
 
     &.icon-arrow,
     &.icon-chevron {
