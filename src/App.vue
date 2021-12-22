@@ -2,8 +2,13 @@
   <img alt="Vue logo" src="./assets/logo.png" />
   <icon-arrow></icon-arrow>
   <icon-chevron chevron="left"  ></icon-chevron>
+  <icon-chevron chevron="right"  ></icon-chevron>
+  <icon-star fill="green" filled="full"></icon-star>
+  <icon-star fill="green" filled="half"></icon-star>
   <icon-star fill="green" filled="empty"></icon-star>
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+
+  
+
 </template>
 
 <script>
