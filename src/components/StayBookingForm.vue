@@ -12,7 +12,13 @@
                 <button id="reserveBtn" class="btn btn-tertiary">Reserve</button>
             </div>
         </div>
-        <div class="row"></div>
+        <div class="row">
+            <div class="date-range">
+                <div class="date-range_being"></div>
+                <icon-arrow></icon-arrow>
+                <div class="date-range_end"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -27,6 +33,11 @@ export default {
         ratings: {
             type: Number,
             required: true
+        },
+        reservation: {
+            type: Object,
+            required: true,
+            validator: (value) => value.begin && value.end
         }
 
     }

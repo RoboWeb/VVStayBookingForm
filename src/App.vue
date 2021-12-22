@@ -9,8 +9,9 @@
 
   <stay-booking-form 
     :price="price" 
-    :ratings="ratings" 
-    
+    :ratings="ratings"
+    :reservation="reservation"
+
   ></stay-booking-form>
 
 </template>
@@ -27,7 +28,11 @@ export default {
     return {
       price: "298 zł",
       ratings: 123,
-      rating: "4.2"
+      rating: "4.2",
+      reservation: {
+        begin: "12 Jan 2022",
+        end: "20 Jan 2022"
+      }
     }
   }
 }
