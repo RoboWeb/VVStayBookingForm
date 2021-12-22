@@ -7,19 +7,29 @@
   <icon-star fill="green" filled="half"></icon-star>
   <icon-star fill="green" filled="empty"></icon-star>
 
-
+  <stay-booking-form 
+    :price="price" 
+    :ratings="ratings" 
+    
+  ></stay-booking-form>
 
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import StayBookingForm from './components/StayBookingForm.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    StayBookingForm
   },
-
+  data(){
+    return {
+      price: "298 zł",
+      ratings: 123,
+      rating: "4.2"
+    }
+  }
 }
 </script>
 
