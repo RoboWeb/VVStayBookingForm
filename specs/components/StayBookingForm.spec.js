@@ -4,8 +4,8 @@ import StayBookingForm from '@/components/StayBookingForm';
 describe("StayBookingForm component elements:", () => {
     let wrapper;
     const mockedProps = {
-        price: 298,
-        rating: 4.3,
+        price: "298 zł",
+        rating: "4.3",
         ratings: 128,
         unavailableDates: [],
         reservation: {
@@ -21,7 +21,11 @@ describe("StayBookingForm component elements:", () => {
             global: {
                 stubs: {
                     RatingStars: true,
-                    Calendar: true
+                    Calendar: true,
+                    iconArrow: true,
+                    iconChevron: true,
+                    iconStar: true,
+                    iconTimes: true
                 }
             }
         })
@@ -55,7 +59,7 @@ describe("StayBookingForm component elements:", () => {
         });
 
         it('has value equal to prop', () => {
-            expect(ratingCount.text()).toEqual(mockedProps.ratings)
+            expect(ratingCount.text()).toEqual(mockedProps.ratings.toString())
         })        
     });
 
@@ -71,13 +75,14 @@ describe("StayBookingForm component elements:", () => {
         });
 
         it('contain begin date', () => {
-            console.log("pseudoInputEl", pseudoInputEl.text());
-            expect(pseudoInputEl.text()).toMatch(`/${mockedProps.reservation.begin}/`);
+            const beginDate = pseudoInputEl.find('.date-range_begin .date');
+    
+            expect(beginDate.text()).toMatch(mockedProps.reservation.begin);
         });
 
         it('contain end date', () => {
-            console.log("pseudoInputEl", pseudoInputEl.text());
-            expect(pseudoInputEl.text()).toMatch(`/${mockedProps.reservation.end}/`);
+            const endDate = pseudoInputEl.find('.date-range_end .date');
+            expect(endDate.text()).toMatch(mockedProps.reservation.end);
         });
     });
 

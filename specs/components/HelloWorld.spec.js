@@ -9,6 +9,14 @@ describe('HelloWorld component test', () => {
         wrapper = mount(HelloWorld, {
             props: {
                 msg: 'Hello World'
+            },
+            global: {
+                stubs: {
+                    iconArrow: true,
+                    iconChevron: true,
+                    iconStar: true,
+                    iconTimes: true
+                }
             }
         })
     });
