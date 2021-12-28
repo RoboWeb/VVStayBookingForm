@@ -4,7 +4,7 @@
             <div class="column">
                 <span class="price">{{ price }}</span>
                 <div class="rating-wrapper">
-                    <span>rating stars</span>
+                    <rating-stars :rating="rating"></rating-stars>
                     <span class="rating-count">{{ ratings }}</span>
                 </div>
             </div>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import ratingStars from './parts/ratingStars.vue';
+
 export default {
     name: "StayBookingForm",
     props: {
@@ -40,12 +42,22 @@ export default {
             type: Number,
             required: true
         },
+        rating: {
+            type: String,
+            default: "5",
+            validator: (value) => {
+                const parsed = parseFloat(value);
+                return parsed >= 0 && parsed <= 5;
+            }
+        },
         reservation: {
             type: Object,
             required: true,
             validator: (value) => value.begin && value.end
         }
-
+    },
+    components:{
+        'rating-stars': ratingStars
     }
 }
 
@@ -65,6 +77,7 @@ export default {
     --border-color-active: #D2E5D0;
     --border-radius: 25px;
     --border-radius-round: 50%;
+    --base-font-size: 12px;
 }
 
 .stay-booking-form {
@@ -74,7 +87,7 @@ export default {
     align-items: stretch;
     background-color: var(--primary-bg-color);
     color: var(--primary-color);
-    font-size: 12px;
+    font-size: var(--base-font-size);
     box-shadow: 0px 8px 24px 0px rgba(66, 68, 90, 0.25);
     border-radius: var(--border-radius);
     width: 100vw;

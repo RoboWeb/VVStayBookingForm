@@ -5,7 +5,7 @@ describe("StayBookingForm component elements:", () => {
     let wrapper;
     const mockedProps = {
         price: "298 zł",
-        rating: "4.3",
+        rating: "3.2",
         ratings: 128,
         unavailableDates: [],
         reservation: {
