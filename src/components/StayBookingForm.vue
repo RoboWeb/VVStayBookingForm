@@ -106,6 +106,9 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        &:not(:last-of-type) {
+            margin-bottom: 1em;
+        }
 
         .column {
             display: flex;
@@ -147,6 +150,26 @@ export default {
     .date {
         white-space: nowrap;
         padding: 5px;
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 1.5em;
+        padding-left: 0.1em;
+        margin-bottom: 0.2em;
+    }
+
+    .rating-wrapper {
+        margin-bottom: 0.2em;
+    }
+
+    .btn {
+        padding: 1em 1.4em;
+        background-color: var(--tertiary-bg-color);
+        color: var(--tertiary-color);
+        border: 0;
+        border-radius: var(--border-radius);
+        font-weight: bold;
     }
 }
 
