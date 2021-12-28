@@ -65,16 +65,26 @@ export default {
 
 <style lang="scss" >
 :root .stay-booking-form {
-    --primary-bg-color: #FFFFFF;
-    --primary-color: #373737;
-    --primary-color-light: #9E9E9E;
-    --primary-color-lighter: #D8D8D8;
-    --tertiary-bg-color: #4E9845;
-    --tertiary-color: #EDF4EC;
-    --secondary-bg-color: #EDF5EC;
-    --secondary-color: #67A65F;
-    --border-color: #E1E1E1;
-    --border-color-active: #D2E5D0;
+    --primary-bg-color: rgb(255,255,255);
+    --primary-bg-color-rgb: 255, 255, 255;
+    --primary-color: rgb(55, 55, 55);
+    --primary-color-rgb: 55, 55, 55;
+    --primary-color-light: rgb(158, 158, 158);
+    --primary-color-light-rgb: 158, 158, 158;
+    --primary-color-lighter: rgb(216, 216, 216);
+    --primary-color-lighter-rgb: 216, 216, 216;
+    --tertiary-bg-color: rgb(78, 152, 69);
+    --tertiary-bg-color-rgb: 78, 152, 69;
+    --tertiary-color: rgb(237, 244, 236);
+    --tertiary-color-rgb: 237, 244, 236;
+    --secondary-bg-color: rgb(237, 245, 236);
+    --secondary-bg-color-rgb: 237, 245, 236;
+    --secondary-color: rgb(103, 166, 95);
+    --secondary-color-rgb: 103, 166, 95;
+    --border-color: rgb(225, 225, 225);
+    --border-color-rgb: 225, 225, 225;
+    --border-color-active: rgb(210, 229, 208);
+    --border-color-active-rgb: 210, 229, 208;
     --border-radius: 25px;
     --border-radius-round: 50%;
     --base-font-size: 12px;
@@ -88,7 +98,7 @@ export default {
     background-color: var(--primary-bg-color);
     color: var(--primary-color);
     font-size: var(--base-font-size);
-    box-shadow: 0px 8px 24px 0px rgba(66, 68, 90, 0.25);
+    box-shadow: 0px 8px 24px 0px rgba(var(--secondary-bg-color-rgb), 0.25);
     border-radius: var(--border-radius);
     width: 100vw;
     max-width: 360px;
@@ -135,7 +145,8 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        height: 40px;
+        height: 28px;
+        padding: 5px;
 
         // > * { background-color: lightblue;}
 
@@ -143,13 +154,33 @@ export default {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            align-items: baseline;            
+            align-items: center;
+            background-color: rgba(var(--primary-color-lighter-rgb), 0);
+            height: 100%;
+            margin: 0;
+            padding: 0 0 0 10px;
+            border-radius: var(--border-radius); 
+            transition: background-color 0.2s ease-out;
+            &:hover {
+                background-color: rgba(var(--primary-color-lighter-rgb), 1);
+            }
+        }
+
+        .icon.icon-times {
+            padding: 5px 10px;
+            margin-bottom: 2px;
+            fill: var(--primary-color-light);
+        }
+
+        &.date-range {
         }
     }
 
     .date {
         white-space: nowrap;
-        padding: 5px;
+        margin: 2px 0 0 0;
+        font-size: 1.2em;
+        color: var(--primary-color);
     }
 
     .price {
