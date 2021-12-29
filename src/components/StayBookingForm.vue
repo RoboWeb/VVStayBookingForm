@@ -25,11 +25,17 @@
                 </div>
             </div>
         </div>
+
+
+        <div class="row">
+            <calendar :begin="reservation.begin" :end="reservation.end" ></calendar>
+        </div>
     </div>
 </template>
 
 <script>
 import ratingStars from './parts/ratingStars.vue';
+import Calendar from './Calendar.vue';
 
 export default {
     name: "StayBookingForm",
@@ -57,7 +63,8 @@ export default {
         }
     },
     components:{
-        'rating-stars': ratingStars
+        'rating-stars': ratingStars,
+        'calendar': Calendar
     }
 }
 

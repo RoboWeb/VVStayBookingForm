@@ -22,19 +22,32 @@ export class DateTime {
         this._weekDayShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     }
     
-    get month(long = false) {
-        return long ? this._monthName[this.monthIndex] : this._monthNameShort[this.monthIndex];
+    get month() {
+        return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
+    }
+
+    get month() {
+        return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
     }
 
     get monthIndex() {
         return this._date.getMonth();
     }
 
-    get weekDay(long = false) {
-        return long ? this._weekDay[this.weekDayIndex] : this._weekDayShort[this.weekDayIndex];
+    get weekDay() {
+        return { long: this._weekDay[this.weekDayIndex], short: this._weekDayShort[this.weekDayIndex] };
     }
 
     get weekDayIndex() {
         return this._date.getDay();
+    }
+
+    get weekDays() {
+        return { long: this._weekDay, short: this._weekDayShort };
+    }
+
+    get formatedDate() {
+        const options = { dateStyle: 'long' };
+        return new Intl.DateTimeFormat(this._locale, options).format(this._date);
     }
 }
