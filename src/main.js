@@ -13,4 +13,3 @@ app.component('icon-star', iconStar);
 app.component('icon-times', iconTimes);
 
 const vm = app.mount('#app');
-console.log(vm);

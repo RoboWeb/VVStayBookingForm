@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="pseudo-input date-range">
+            <div class="pseudo-input date-range" @click="calendarVisible = true" >
                 <div class="date-range_begin pseudo-input_date">
                     <span class="date">{{ reservation.begin }}</span>
                     <icon-times></icon-times>
@@ -23,17 +23,14 @@
                     <span class="date">{{ reservation.end }}</span>
                     <icon-times></icon-times>
                 </div>
+                <calendar v-if="calendarVisible" :begin="reservation.begin" :end="reservation.end" ></calendar>
             </div>
-        </div>
-
-
-        <div class="row">
-            <calendar :begin="reservation.begin" :end="reservation.end" ></calendar>
         </div>
     </div>
 </template>
 
 <script>
+import { ref } from 'vue';
 import ratingStars from './parts/ratingStars.vue';
 import Calendar from './Calendar.vue';
 
@@ -65,6 +62,13 @@ export default {
     components:{
         'rating-stars': ratingStars,
         'calendar': Calendar
+    },
+    setup() {
+        const calendarVisible = ref(false);
+
+        return {
+            calendarVisible
+        }
     }
 }
 
@@ -145,7 +149,7 @@ export default {
     }
 
     .pseudo-input {
-        width: 100%;
+        width: calc(100% - 10px);
         border-radius: var(--border-radius);
         border: solid 1px var(--border-color);
         display: flex;
@@ -154,7 +158,7 @@ export default {
         align-items: center;
         height: 28px;
         padding: 5px;
-        position: inherit;
+        position: relative;
 
         &_date {
             display: flex;
@@ -215,6 +219,11 @@ export default {
         border: 0;
         border-radius: var(--border-radius);
         font-weight: bold;
+
+        &-icon {
+            background: transparent;
+            padding: 1em;
+        }
     }
 }
 

@@ -1,6 +1,6 @@
-export class DateTime {
-    constructor(dateStr) {
-        this._date = new Date(dateStr);
+export default class DateTime {
+    constructor(dateStr = null) {
+        this._date = dateStr ? new Date(dateStr) : new Date();
         this._locale = 'en-US';
 
         this._monthName = [
@@ -26,10 +26,6 @@ export class DateTime {
         return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
     }
 
-    get month() {
-        return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
-    }
-
     get monthIndex() {
         return this._date.getMonth();
     }
@@ -49,5 +45,13 @@ export class DateTime {
     get formatedDate() {
         const options = { dateStyle: 'long' };
         return new Intl.DateTimeFormat(this._locale, options).format(this._date);
+    }
+
+    get year() {
+        return this._date.getFullYear();
+    }
+
+    get timestamp() {
+        return this._date.getTime();
     }
 }
