@@ -98,10 +98,10 @@ export default {
     background-color: var(--primary-bg-color);
     color: var(--primary-color);
     font-size: var(--base-font-size);
-    box-shadow: 0px 8px 24px 0px rgba(var(--secondary-bg-color-rgb), 0.25);
+    box-shadow: 0px 8px 24px 0px rgba(var(--primary-color-rgb), 0.25);
     border-radius: var(--border-radius);
     width: 100vw;
-    max-width: 360px;
+    max-width: 300px;
     margin: 2rem auto;
     padding: 20px;
     position: relative;
@@ -172,8 +172,8 @@ export default {
             fill: var(--primary-color-light);
         }
 
-        &.date-range {
-        }
+        // &.date-range {
+        // }
     }
 
     .date {
