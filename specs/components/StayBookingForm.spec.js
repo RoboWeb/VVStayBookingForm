@@ -9,8 +9,10 @@ describe("StayBookingForm component elements:", () => {
         ratings: 128,
         unavailableDates: [],
         reservation: {
-            begin: "12 Jan 2022",
-            end: "20 Jan 2022"
+            begin: "2022-01-12T12:00",
+            begin_expected: "12 Jan 2022",
+            end: "2022-01-20T12:00",
+            end_expected: "20 Jan 2022"
         }
     };
     
@@ -20,8 +22,8 @@ describe("StayBookingForm component elements:", () => {
             props: mockedProps,
             global: {
                 stubs: {
-                    RatingStars: true,
                     Calendar: true,
+                    ratingStars: true,
                     iconArrow: true,
                     iconChevron: true,
                     iconStar: true,
@@ -77,12 +79,12 @@ describe("StayBookingForm component elements:", () => {
         it('contain begin date', () => {
             const beginDate = pseudoInputEl.find('.date-range_begin .date');
     
-            expect(beginDate.text()).toMatch(mockedProps.reservation.begin);
+            expect(beginDate.text()).toMatch(mockedProps.reservation.begin_expected);
         });
 
         it('contain end date', () => {
             const endDate = pseudoInputEl.find('.date-range_end .date');
-            expect(endDate.text()).toMatch(mockedProps.reservation.end);
+            expect(endDate.text()).toMatch(mockedProps.reservation.end_expected);
         });
     });
 

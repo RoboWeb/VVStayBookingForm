@@ -147,8 +147,7 @@ export default {
         align-items: center;
         height: 28px;
         padding: 5px;
-
-        // > * { background-color: lightblue;}
+        position: inherit;
 
         &_date {
             display: flex;
@@ -161,8 +160,16 @@ export default {
             padding: 0 0 0 10px;
             border-radius: var(--border-radius); 
             transition: background-color 0.2s ease-out;
+            .date {
+                color: var(--primary-color);
+                transition: color 0.2s ease-out;
+                font-weight: bold;
+            }
             &:hover {
                 background-color: rgba(var(--primary-color-lighter-rgb), 1);
+                .date {
+                    color: var(--secondary-color);
+                }
             }
         }
 

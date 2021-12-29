@@ -8,6 +8,10 @@
   <icon-star fill="green" filled="empty"></icon-star>
   <icon-times></icon-times>
 
+  <div>
+    {{ getDate }}
+  </div>
+
   <stay-booking-form 
     :price="price" 
     :ratings="ratings"
@@ -33,8 +37,17 @@ export default {
       reservation: {
         begin: "12 Jan 2022",
         end: "20 Jan 2022"
-      }
+      },
+      date: ''
     }
+  },
+  computed: {
+    getDate() {
+      return this.date;
+    }
+  },
+  mounted() {
+    this.date = new Date(this.reservation.begin);
   }
 }
 </script>
