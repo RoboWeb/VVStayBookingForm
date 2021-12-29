@@ -120,9 +120,9 @@ describe("StayBookingForm component elements:", () => {
                 expect(calendar.exists()).toBeFalsy();
             });
 
-            it('exist after user interaction', () => {
+            it('exist after user interaction', async () => {
                 const pseudoInputEl = wrapper.find('.pseudo-input');
-                pseudoInputEl.trigger('click');
+                await pseudoInputEl.trigger('click');
 
                 const calendar = wrapper.find('calendar-stub');
                 expect(calendar.exists()).toBeTruthy();

@@ -15,12 +15,12 @@
         <div class="row">
             <div class="pseudo-input date-range" @click="calendarVisible = true" >
                 <div class="date-range_begin pseudo-input_date">
-                    <span class="date">{{ reservation.begin }}</span>
+                    <span class="date">{{ beginDate.day.numeric }} {{ beginDate.month.short }} {{ beginDate.year }}</span>
                     <icon-times></icon-times>
                 </div>
                 <icon-arrow></icon-arrow>
                 <div class="date-range_end pseudo-input_date">
-                    <span class="date">{{ reservation.end }}</span>
+                    <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
                     <icon-times></icon-times>
                 </div>
                 <calendar v-if="calendarVisible" :begin="reservation.begin" :end="reservation.end" ></calendar>
@@ -30,7 +30,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import DateTime from "./../services/datetime";
 import ratingStars from './parts/ratingStars.vue';
 import Calendar from './Calendar.vue';
 
@@ -63,11 +64,16 @@ export default {
         'rating-stars': ratingStars,
         'calendar': Calendar
     },
-    setup() {
+    setup(props) {
         const calendarVisible = ref(false);
 
+        const beginDate = computed(() => new DateTime(props.reservation.begin));
+        const endDate = computed(() => new DateTime(props.reservation.end));
+
         return {
-            calendarVisible
+            calendarVisible,
+            beginDate,
+            endDate
         }
     }
 }
@@ -174,7 +180,7 @@ export default {
             .date {
                 color: var(--primary-color);
                 transition: color 0.2s ease-out;
-                font-weight: bold;
+     
             }
             &:hover {
                 background-color: rgba(var(--primary-color-lighter-rgb), 1);

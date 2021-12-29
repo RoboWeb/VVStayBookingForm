@@ -22,6 +22,13 @@ export default class DateTime {
         this._weekDayShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     }
     
+    get day() {
+        return { 
+            numeric: new Intl.DateTimeFormat(this._locale, {day: 'numeric' }).format(this._date),
+            digit: new Intl.DateTimeFormat(this._locale, { day: '2-digit' }).format(this._date)
+        };
+    }
+
     get month() {
         return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
     }
@@ -42,13 +49,13 @@ export default class DateTime {
         return { long: this._weekDay, short: this._weekDayShort };
     }
 
+    get year() {
+        return this._date.getFullYear();
+    }
+
     get formatedDate() {
         const options = { dateStyle: 'long' };
         return new Intl.DateTimeFormat(this._locale, options).format(this._date);
-    }
-
-    get year() {
-        return this._date.getFullYear();
     }
 
     get timestamp() {

@@ -42,15 +42,6 @@ export default {
     const displayingMonth = ref(reservationBegin.month.long);
     const displayingYear = ref(reservationBegin.year);
 
-    console.log({
-      now: now.formatedDate,
-      begin: reservationBegin.formatedDate,
-      now_timestamp: now.timestamp,
-      begin_timestamp: reservationBegin.timestamp,
-      now_date: new Date(now.timestamp),
-      begin_date: new Date(reservationBegin.timestamp),
-    });
-
     return {
       displayingMonth,
       displayingYear,
