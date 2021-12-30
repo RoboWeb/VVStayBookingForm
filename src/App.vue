@@ -9,7 +9,7 @@
   <icon-times></icon-times>
 
   <div>
-    {{ getDate }}
+    {{ getDate.formattedDate }}
   </div>
 
   <stay-booking-form 
@@ -23,6 +23,7 @@
 
 <script>
 import StayBookingForm from './components/StayBookingForm.vue';
+import DateTime from './services/datetime';
 
 export default {
   name: 'App',
@@ -47,7 +48,7 @@ export default {
     }
   },
   mounted() {
-    this.date = new Date(this.reservation.begin);
+    this.date = new DateTime(this.reservation.begin);
   }
 }
 </script>

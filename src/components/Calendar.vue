@@ -12,6 +12,9 @@
       </span>
       <icon-chevron chevron="right" class="btn btn-icon"></icon-chevron>
     </div>
+    <div class="week-days">
+      <span class="week-days_day" v-for="day in now.weekDays.short">{{ day }}</span>
+    </div>
   </div>
 </template>
 
@@ -43,6 +46,7 @@ export default {
     const displayingYear = ref(reservationBegin.year);
 
     return {
+      now,
       displayingMonth,
       displayingYear,
     };
