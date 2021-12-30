@@ -18,9 +18,9 @@ export default class DateTime {
             'December'
           ]
         this._monthNameShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        this._weekDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        this._weekDayShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        this._weekFirstDay = 0;
+        this._weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        this._weekDaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        this.weekFirstDay = 1;
     }
 
     /**
@@ -28,6 +28,34 @@ export default class DateTime {
      */
     set weekFirstDay(index) {
         this._weekFirstDay = index < 0 || index > 6 ? 0 : index;
+        this._setShiftedWeekDays()
+    }
+
+    /**
+     * @return {number} index of the first day of the week
+     */
+    get weekFirstDay() {
+        return this._weekFirstDay;
+    }
+
+    _setShiftedWeekDays() {
+        let weekDayIndexes = [0, 1, 2, 3, 4, 5, 6];
+        let weekDays = [...this._weekDays];
+        let weekDaysShort = [...this._weekDaysShort];
+
+        if (this.weekFirstDay !== 0) {
+            for(let i=0;i<this.weekFirstDay;i++) {
+                weekDayIndexes.push(weekDayIndexes.shift());
+                weekDays.push(weekDays.shift());
+                weekDaysShort.push(weekDaysShort.shift());
+            }
+        }
+
+        this._shiftedWeekDays = {
+            index: weekDayIndexes,
+            long: weekDays,
+            short: weekDaysShort
+        }        
     }
     
     /**
@@ -42,10 +70,10 @@ export default class DateTime {
     }
 
     /**
-     * @return {Object} name of the month: { long: January..December, short: Jan..Dec }
+     * @return {Object} name and index of the month: { index: 0-11, long: January-December, short: Jan-Dec }
      */
     get month() {
-        return { long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
+        return { index: this.monthIndex, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
     }
 
     /**
@@ -57,10 +85,10 @@ export default class DateTime {
     }
 
     /**
-     * @return {Object} name of the day of the week: { long: Sunday..Saturday, short: Sun..Sat }
+     * @return {Object} name and index of the day of the week: { index: 0-6 long: Sunday-Saturday, short: Sun-Sat }
      */
     get weekDay() {
-        return { long: this._weekDay[this.weekDayIndex], short: this._weekDayShort[this.weekDayIndex] };
+        return { index: this.weekDayIndex, long: this._weekDays[this.weekDayIndex], short: this._weekDaysShort[this.weekDayIndex] };
     }
 
     /**
@@ -72,9 +100,10 @@ export default class DateTime {
 
     /**
      * @return {Object} arrays of the names of the days of the week: { long: [Sunday,..,Saturday], short: [Sun,..,Sat] }
+     * accordingly to the first day of the week (Sunday||Monday|| ...)
      */
     get weekDays() {
-        return { long: this._weekDay, short: this._weekDayShort };
+        return this._shiftedWeekDays;
     }
 
     /**
