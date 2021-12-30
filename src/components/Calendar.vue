@@ -43,6 +43,8 @@ export default {
     const now = new DateTime();
     const calendarPage = ref([]);
 
+    const WEEK_FIRST_INDEX = 1;
+
     const reservationBegin = new DateTime(props.begin);
     const reservationEnd = new DateTime(props.end);
 
@@ -50,16 +52,47 @@ export default {
     const displayingYear = ref(reservationBegin.year);
 
     // methods
-    // const prepareCalendarPage = () => {
+    const prepareCalendarPage = () => {
+      const monthFirstDayDate = new Date(reservationBegin.year, reservationBegin.month.index, 1, 12);
+      const monthFirstDateTime = new DateTime(monthFirstDayDate.toISOString());
 
-    // }
+      let calendarPageFirstDayDate = monthFirstDayDate;
+      console.log("monthFirstDateTime.weekDayIndex", monthFirstDateTime.weekDayIndex)
+      if (monthFirstDateTime.weekDayIndex === 0) {
+        calendarPageFirstDayDate = new Date(
+          monthFirstDateTime.year, 
+          monthFirstDateTime.month.index, 
+          monthFirstDateTime.day.numeric - 6, 
+          12
+        );
+      } else if (monthFirstDateTime.weekDayIndex > 1) {
+        calendarPageFirstDayDate = new Date(
+          monthFirstDateTime.year, 
+          monthFirstDateTime.month.index, 
+          monthFirstDateTime.day.numeric - (monthFirstDateTime.weekDayIndex - 1), 
+          12
+        );
+        console.log({"calendarPageFirstDayDate": calendarPageFirstDayDate, "monthFirstDateTime.day.numeric": monthFirstDateTime.day.numeric})
+      }
+      const calendarPageFirstDayDateTime = new DateTime(calendarPageFirstDayDate.toISOString());
+
+      console.log("calendarPageFirstDayDateTime", calendarPageFirstDayDateTime.ISODate)
+
+      // let day,weekDayIndex = WEEK_FIRST_INDEX;
+      // do {
+      //   day = new Date(reservationBegin.year, reservationBegin.month.index, 1, 12)
+      //   weekDayIndex++;
+      //   if (weekDayIndex > 6) weekDayIndex = 0; 
+      // } while (weekDayIndex === 0 && [28,29,30,31].includes(day))
+
+    }
 
     // const getMonthLastDay = (dt) => {
     //   return new DateTime(d)
     // }
 
     onMounted(() => {
-  
+      prepareCalendarPage()
     })
 
     return {
@@ -88,8 +121,22 @@ export default {
   box-shadow: 0px 8px 24px 0px rgba(var(--primary-color-rgb), 0.25);
   border-radius: var(--border-radius);
   padding: 20px;
+
+  .week-days {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 10px);
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+
+    &_day {
+      color: var(--primary-color-light);
+    }
+  }
 }
 .month-switcher {
+  margin-bottom: 1em;
   .date {
     &_displaying {
       font-weight: bold;
