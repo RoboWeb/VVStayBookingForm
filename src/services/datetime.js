@@ -58,6 +58,10 @@ export default class DateTime {
         return new Intl.DateTimeFormat(this._locale, options).format(this._date);
     }
 
+    get ISODate() {
+        return this._date.toISOString();
+    }
+
     get timestamp() {
         return this._date.getTime();
     }

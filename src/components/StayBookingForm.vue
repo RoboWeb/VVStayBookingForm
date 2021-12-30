@@ -1,5 +1,5 @@
 <template>
-    <div class="stay-booking-form">
+    <div class="stay-booking-form" @click="calendarVisible = false">
         <div class="row">
             <div class="column">
                 <span class="price">{{ price }}</span>
@@ -9,19 +9,19 @@
                 </div>
             </div>
             <div class="column">
-                <button id="reserveBtn" class="btn btn-tertiary">Reserve</button>
+                <button id="reserveBtn" class="btn btn-tertiary" @click="confirmReservation">Reserve</button>
             </div>
         </div>
         <div class="row">
-            <div class="pseudo-input date-range" @click="calendarVisible = true" >
+            <div class="pseudo-input date-range" @click.stop="calendarVisible = true" >
                 <div class="date-range_begin pseudo-input_date">
                     <span class="date">{{ beginDate.day.numeric }} {{ beginDate.month.short }} {{ beginDate.year }}</span>
-                    <icon-times></icon-times>
+                    <icon-times class="btn btn-icon btn-small"></icon-times>
                 </div>
                 <icon-arrow></icon-arrow>
                 <div class="date-range_end pseudo-input_date">
                     <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
-                    <icon-times></icon-times>
+                    <icon-times class="btn btn-icon btn-small"></icon-times>
                 </div>
                 <calendar v-if="calendarVisible" :begin="reservation.begin" :end="reservation.end" ></calendar>
             </div>
@@ -60,20 +60,31 @@ export default {
             validator: (value) => value.begin && value.end
         }
     },
+    emits: {
+        'reserve': ({begin, end}) => {
+            console.log("Emit event reserve", begin, end);
+            return true;
+        }
+    },
     components:{
         'rating-stars': ratingStars,
         'calendar': Calendar
     },
-    setup(props) {
+    setup(props, { emit }) {
         const calendarVisible = ref(false);
 
         const beginDate = computed(() => new DateTime(props.reservation.begin));
         const endDate = computed(() => new DateTime(props.reservation.end));
 
+        const confirmReservation = () => {
+            emit('reserve', { begin: beginDate.value.ISODate, end: endDate.value.ISODate });
+        }
+
         return {
             calendarVisible,
             beginDate,
-            endDate
+            endDate,
+            confirmReservation
         }
     }
 }
@@ -225,6 +236,7 @@ export default {
         border: 0;
         border-radius: var(--border-radius);
         font-weight: bold;
+        cursor: pointer;
 
         &-icon {
             background: transparent;

@@ -127,6 +127,13 @@ describe("StayBookingForm component elements:", () => {
                 const calendar = wrapper.find('calendar-stub');
                 expect(calendar.exists()).toBeTruthy();
             })
+
+            it('not exist after user interaction with component', async () => {
+                await wrapper.trigger('click');
+
+                const calendar = wrapper.find('calendar-stub');
+                expect(calendar.exists()).toBeFalsy();
+            })
         })
     });
     
