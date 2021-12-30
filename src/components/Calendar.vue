@@ -15,6 +15,9 @@
     <div class="week-days">
       <span class="week-days_day" v-for="day in now.weekDays.short">{{ day }}</span>
     </div>
+    <div class="month">
+
+    </div>
   </div>
 </template>
 
@@ -38,12 +41,26 @@ export default {
   },
   setup(props) {
     const now = new DateTime();
+    const calendarPage = ref([]);
 
     const reservationBegin = new DateTime(props.begin);
     const reservationEnd = new DateTime(props.end);
 
     const displayingMonth = ref(reservationBegin.month.long);
     const displayingYear = ref(reservationBegin.year);
+
+    // methods
+    // const prepareCalendarPage = () => {
+
+    // }
+
+    // const getMonthLastDay = (dt) => {
+    //   return new DateTime(d)
+    // }
+
+    onMounted(() => {
+  
+    })
 
     return {
       now,

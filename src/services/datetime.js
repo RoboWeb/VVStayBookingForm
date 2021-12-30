@@ -20,15 +20,19 @@ export default class DateTime {
         this._monthNameShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         this._weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         this._weekDaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        this._isAvailable = true;
+
+        // set by setter
         this.weekFirstDay = 1;
-        this._isUnavailable = false;
+
+        this._setLastDayOfMonth();
     }
 
     /**
      * @param {number} index
      */
     set weekFirstDay(index) {
-        this._weekFirstDay = index < 0 || index > 6 ? 0 : index;
+        this._weekFirstDay= index < 0 || index > 6 ? 0 : index;
         this._setShiftedWeekDays()
     }
 
@@ -44,7 +48,7 @@ export default class DateTime {
         let weekDays = [...this._weekDays];
         let weekDaysShort = [...this._weekDaysShort];
 
-        if (this.weekFirstDay !== 0) {
+        if (this._weekFirstDay!== 0) {
             for(let i=0;i<this.weekFirstDay;i++) {
                 weekDayIndexes.push(weekDayIndexes.shift());
                 weekDays.push(weekDays.shift());
@@ -59,17 +63,23 @@ export default class DateTime {
         }        
     }
 
+    _setLastDayOfMonth() {
+        let lastDay = new Date(this.year, this.month.index + 1, 0, 12);
+
+        this._lastDay = lastDay.getDate()
+    }
+
     /**
      * @param {boolean} value
      */
-    set isUnavailable(value) {
+    set isAvailable(value) {
         this._isUnavailable = value;
     }
 
     /**
      * @return {boolean}
      */
-    get isUnavailable() {
+    get isAvailable() {
         return this._isUnavailable;
     }
     
@@ -88,7 +98,7 @@ export default class DateTime {
      * @return {Object} name and index of the month: { index: 0-11, long: January-December, short: Jan-Dec }
      */
     get month() {
-        return { index: this.monthIndex, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex] };
+        return { index: this.monthIndex, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex], days: this._lastDay };
     }
 
     /**
