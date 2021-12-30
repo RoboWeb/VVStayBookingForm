@@ -21,6 +21,7 @@ export default class DateTime {
         this._weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         this._weekDaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         this.weekFirstDay = 1;
+        this._isUnavailable = false;
     }
 
     /**
@@ -56,6 +57,20 @@ export default class DateTime {
             long: weekDays,
             short: weekDaysShort
         }        
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set isUnavailable(value) {
+        this._isUnavailable = value;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    get isUnavailable() {
+        return this._isUnavailable;
     }
     
     /**
