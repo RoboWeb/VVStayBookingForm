@@ -1,4 +1,7 @@
-export default class DateTime {
+export const WEEK_FIRST_DAY_INDEX = 1;
+export const WEEK_LAST_DAY_INDEX = WEEK_FIRST_DAY_INDEX === 0 ? 6 : WEEK_FIRST_DAY_INDEX - 1;
+
+export class DateTime {
     constructor(...args) {
         this._date = new Date(...args);
         this._locale = 'en-US';
@@ -21,9 +24,10 @@ export default class DateTime {
         this._weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         this._weekDaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
         this._isAvailable = true;
+        this._isSelected = false;
 
         // set by setter
-        this.weekFirstDay = 1;
+        this.weekFirstDay = WEEK_FIRST_DAY_INDEX;
 
         this._setLastDayOfMonth();
     }
@@ -73,14 +77,28 @@ export default class DateTime {
      * @param {boolean} value
      */
     set isAvailable(value) {
-        this._isUnavailable = value;
+        this._isAvailable = value;
     }
 
     /**
      * @return {boolean}
      */
     get isAvailable() {
-        return this._isUnavailable;
+        return this._isAvailable;
+    }
+
+    /**
+     * @param {boolean} value
+     */
+    set isSelected(value) {
+        this._isSelected = this.isAvailable ? value : false;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    get isSelected() {
+        return this._isSelected;
     }
     
     /**
@@ -164,3 +182,5 @@ export default class DateTime {
         return this._date.getTime();
     }
 }
+
+export default DateTime;

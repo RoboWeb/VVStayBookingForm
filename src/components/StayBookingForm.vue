@@ -23,15 +23,16 @@
                     <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
                     <icon-times class="btn btn-icon btn-small"></icon-times>
                 </div>
-                <calendar v-if="calendarVisible" :begin="reservation.begin" :end="reservation.end" ></calendar>
+                <calendar v-if="calendarVisible" :page="calendarPage.days" :year="calendarPage.year" :month="calendarPage.month" ></calendar>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import DateTime from "./../services/datetime";
+import CalendarPage from "./../services/calendar";
 import ratingStars from './parts/ratingStars.vue';
 import Calendar from './Calendar.vue';
 
@@ -72,16 +73,34 @@ export default {
     },
     setup(props, { emit }) {
         const calendarVisible = ref(false);
+        const calendarPage = reactive({
+            days: [],
+            month: '',
+            year: ''
+        });
 
         const beginDate = computed(() => new DateTime(props.reservation.begin));
         const endDate = computed(() => new DateTime(props.reservation.end));
-
+        
+        // emits
         const confirmReservation = () => {
             emit('reserve', { begin: beginDate.value.ISODate, end: endDate.value.ISODate });
         }
 
+        // methods
+        
+
+        // mounthed
+        onMounted(() => {
+            calendarPage.days = CalendarPage(beginDate.value);
+            calendarPage.year = beginDate.value.year;
+            calendarPage.month = beginDate.value.month.long;
+        });
+       
+
         return {
             calendarVisible,
+            calendarPage,
             beginDate,
             endDate,
             confirmReservation
