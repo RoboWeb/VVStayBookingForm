@@ -53,30 +53,28 @@ export default {
 
     // methods
     const prepareCalendarPage = () => {
-      const monthFirstDayDate = new Date(reservationBegin.year, reservationBegin.month.index, 1, 12);
-      const monthFirstDateTime = new DateTime(monthFirstDayDate.toISOString());
+      const monthFirstDayDateTime = new DateTime(reservationBegin.year, reservationBegin.month.index, 1, 12)
 
-      let calendarPageFirstDayDate = monthFirstDayDate;
-      console.log("monthFirstDateTime.weekDayIndex", monthFirstDateTime.weekDayIndex)
-      if (monthFirstDateTime.weekDayIndex === 0) {
-        calendarPageFirstDayDate = new Date(
-          monthFirstDateTime.year, 
-          monthFirstDateTime.month.index, 
-          monthFirstDateTime.day.numeric - 6, 
-          12
-        );
-      } else if (monthFirstDateTime.weekDayIndex > 1) {
-        calendarPageFirstDayDate = new Date(
-          monthFirstDateTime.year, 
-          monthFirstDateTime.month.index, 
-          monthFirstDateTime.day.numeric - (monthFirstDateTime.weekDayIndex - 1), 
-          12
-        );
-        console.log({"calendarPageFirstDayDate": calendarPageFirstDayDate, "monthFirstDateTime.day.numeric": monthFirstDateTime.day.numeric})
-      }
-      const calendarPageFirstDayDateTime = new DateTime(calendarPageFirstDayDate.toISOString());
+      console.log(monthFirstDayDateTime, monthFirstDayDateTime.ISODate)
+      // let calendarPageFirstDayDate = monthFirstDayDate;
+      // if (monthFirstDateTime.weekDayIndex < WEEK_FIRST_INDEX) {
+      //   calendarPageFirstDayDate = new Date(
+      //     monthFirstDateTime.year, 
+      //     monthFirstDateTime.month.index, 
+      //     monthFirstDateTime.day.numeric - (6 - monthFirstDateTime.weekDayIndex), 
+      //     12
+      //   );
+      // } else if (monthFirstDateTime.weekDayIndex > WEEK_FIRST_INDEX) {
+      //   calendarPageFirstDayDate = new Date(
+      //     monthFirstDateTime.year, 
+      //     monthFirstDateTime.month.index, 
+      //     monthFirstDateTime.day.numeric - (monthFirstDateTime.weekDayIndex - 1), 
+      //     12
+      //   );
+      // }
+      // const calendarPageFirstDayDateTime = new DateTime(calendarPageFirstDayDate.toISOString());
 
-      console.log("calendarPageFirstDayDateTime", calendarPageFirstDayDateTime.ISODate)
+      // console.log("calendarPageFirstDayDateTime", calendarPageFirstDayDateTime.ISODate)
 
       // let day,weekDayIndex = WEEK_FIRST_INDEX;
       // do {

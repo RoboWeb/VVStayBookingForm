@@ -1,6 +1,6 @@
 export default class DateTime {
-    constructor(dateStr = null) {
-        this._date = dateStr ? new Date(dateStr) : new Date();
+    constructor(...args) {
+        this._date = new Date(...args);
         this._locale = 'en-US';
 
         this._monthName = [
