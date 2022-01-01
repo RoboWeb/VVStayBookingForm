@@ -13,10 +13,10 @@
       <icon-chevron chevron="right" class="btn btn-icon"></icon-chevron>
     </div>
     <div class="week-days">
-      <span class="week-days_day" v-for="day in now.weekDays.short">{{ day }}</span>
+      <span class="week-days_day-name" v-for="day in now.weekDays.short">{{ day }}</span>
     </div>
     <div class="month">
-
+      <span class="month_day" v-for="day in page">{{ day.day.numeric }}</span>
     </div>
   </div>
 </template>
@@ -63,17 +63,25 @@ export default {
   box-shadow: 0px 8px 24px 0px rgba(var(--primary-color-rgb), 0.25);
   border-radius: var(--border-radius);
   padding: 20px;
-
-  .week-days {
-    display: flex;
-    flex-direction: row;
-    width: calc(100% - 10px);
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5px;
-
-    &_day {
+  .week-days,
+  .month {
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
+    // grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
+    gap: 0px 5px; 
+    grid-template-areas: 
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . ."
+      ". . . . . . ."; 
+    &_day-name {
       color: var(--primary-color-light);
+      margin-bottom: 10px;
+    }
+    &_day {
+      padding: 5px 0;
     }
   }
 }
