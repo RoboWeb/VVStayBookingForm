@@ -16,13 +16,13 @@
       <span class="week-days_day-name" v-for="day in now.weekDays.short">{{ day }}</span>
     </div>
     <div class="month">
-      <span 
+      <div 
         class="month_day" 
         v-for="day in page.days"
-        :class="{'is-prev-month': isPrevDate(day), 'is-next-moth': isNextDate(day), 'is-selected': isSelected(day) }"
+        :class="{'is-prev-month': isPrevDate(day), 'is-next-moth': isNextDate(day), 'is-selected': isSelected(day), 'is-begin': isBegin(day), 'is-end': isEnd(day) }"
       >
-        {{ day.day.numeric }}
-      </span>
+        <span>{{ day.day.numeric }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -89,7 +89,7 @@ export default {
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
     // grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
-    gap: 0px 5px; 
+    gap: 4px 0; 
     grid-template-areas: 
       ". . . . . . ."
       ". . . . . . ."
@@ -97,12 +97,64 @@ export default {
       ". . . . . . ."
       ". . . . . . ."
       ". . . . . . ."; 
+    
     &_day-name {
       color: var(--primary-color-light);
       margin-bottom: 10px;
     }
     &_day {
-      padding: 5px 0;
+      padding: 8px 4px 5px 4px;
+      &.is-prev-month,
+      &.is-next-moth,
+      &.is-unavailable {
+        color: var(--primary-color-lighter);
+      }
+      &.is-selected {
+        position: relative;
+        color: var(--secondary-color);
+        &::before,
+        &::after {
+          position: absolute;
+          content: '';
+          width: 50%;
+          top: 0;
+          bottom: 0;
+          background-color: rgba(var(--tertiary-bg-color-rgb), 0.1);
+          z-index: 1;
+        }
+        &::before {
+          left: 0;
+          right: unset;
+        }
+        &::after {
+          left: unset;
+          right: 0;
+        }
+      }
+      &.is-begin {
+        color: var(--tertiary-color) !important;
+        &::before {
+          border-radius: var(--border-radius-round);
+          background-color: var(--tertiary-bg-color);
+          width: 75%;
+          left: 5px;
+          z-index: 1;
+        }
+      }
+      &.is-end {
+        color: var(--tertiary-color) !important;
+        &::after {
+          border-radius: var(--border-radius-round);
+          background-color: var(--tertiary-bg-color);
+          width: 75%;
+          right: 5px;
+          z-index: 1;
+        }
+      }
+      > span {
+        position: relative;
+        z-index: 10;
+      }
     }
   }
 }

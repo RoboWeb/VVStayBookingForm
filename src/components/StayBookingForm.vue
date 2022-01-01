@@ -205,7 +205,7 @@ export default {
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            background-color: rgba(var(--primary-color-lighter-rgb), 0);
+            background-color: rgba(var(--tertiary-bg-color-rgb), 0);
             height: 100%;
             margin: 0;
             padding: 0 0 0 10px;
@@ -217,7 +217,7 @@ export default {
      
             }
             &:hover {
-                background-color: rgba(var(--primary-color-lighter-rgb), 1);
+                background-color: rgba(var(--tertiary-bg-color-rgb), 0.1);
                 .date {
                     color: var(--secondary-color);
                 }
