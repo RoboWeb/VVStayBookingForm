@@ -23,7 +23,7 @@
                     <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
                     <icon-times class="btn btn-icon btn-small"></icon-times>
                 </div>
-                <calendar v-if="calendarVisible" :page="calendarPage.days" :year="calendarPage.year" :month="calendarPage.month" ></calendar>
+                <calendar v-if="calendarVisible" :page="calendarPage" ></calendar>
             </div>
         </div>
     </div>
@@ -76,7 +76,8 @@ export default {
         const calendarPage = reactive({
             days: [],
             month: '',
-            year: ''
+            unavailable: [],
+            reservation: {}
         });
 
         const beginDate = computed(() => new DateTime(props.reservation.begin));
@@ -90,11 +91,14 @@ export default {
         // methods
         
 
-        // mounthed
+        // mounted
         onMounted(() => {
             calendarPage.days = CalendarPage(beginDate.value);
-            calendarPage.year = beginDate.value.year;
-            calendarPage.month = beginDate.value.month.long;
+            calendarPage.month = new DateTime(beginDate.value.year, beginDate.value.month.index, 1, 12);
+            calendarPage.reservation = {
+                begin: beginDate.value,
+                end: endDate.value
+            }
         });
        
 

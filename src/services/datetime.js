@@ -23,8 +23,6 @@ export class DateTime {
         this._monthNameShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         this._weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
         this._weekDaysShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-        this._isAvailable = true;
-        this._isSelected = false;
 
         // set by setter
         this.weekFirstDay = WEEK_FIRST_DAY_INDEX;
@@ -72,34 +70,6 @@ export class DateTime {
 
         this._lastDay = lastDay.getDate()
     }
-
-    /**
-     * @param {boolean} value
-     */
-    set isAvailable(value) {
-        this._isAvailable = value;
-    }
-
-    /**
-     * @return {boolean}
-     */
-    get isAvailable() {
-        return this._isAvailable;
-    }
-
-    /**
-     * @param {boolean} value
-     */
-    set isSelected(value) {
-        this._isSelected = this.isAvailable ? value : false;
-    }
-
-    /**
-     * @return {boolean}
-     */
-    get isSelected() {
-        return this._isSelected;
-    }
     
     /**
      * @return {Object} number of the day of the month: { numeric: 1-31, digit: 01-31 } according to _date
@@ -116,7 +86,9 @@ export class DateTime {
      * @return {Object} name and index of the month: { index: 0-11, long: January-December, short: Jan-Dec }
      */
     get month() {
-        return { index: this.monthIndex, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex], days: this._lastDay };
+        const digit = new Intl.DateTimeFormat(this._locale, { month: '2-digit' }).format(this._date);
+        const numeric = new Intl.DateTimeFormat(this._locale, { month: 'numeric' }).format(this._date);
+        return { index: this.monthIndex, numeric: numeric, digit: digit, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex], days: this._lastDay };
     }
 
     /**
@@ -155,6 +127,13 @@ export class DateTime {
      */
     get year() {
         return this._date.getFullYear();
+    }
+
+    /**
+     * @return {Number} representation of date (year month day), eg: 20220112
+     */
+    get date() {
+        return Number(`${this.year}${this.month.digit}${this.day.digit}`);
     }
 
     /**

@@ -4,10 +4,10 @@
       <icon-chevron chevron="left" class="btn btn-icon"></icon-chevron>
       <span class="date month-year">
         <span class="date_displaying date_displaying-month">
-          {{ month }}
+          {{ page.month.month.long }}
         </span>
         <span class="date_displaying date_displaying-year">
-          {{ year }}
+          {{ page.month.year }}
         </span>
       </span>
       <icon-chevron chevron="right" class="btn btn-icon"></icon-chevron>
@@ -16,15 +16,20 @@
       <span class="week-days_day-name" v-for="day in now.weekDays.short">{{ day }}</span>
     </div>
     <div class="month">
-      <span class="month_day" v-for="day in page">{{ day.day.numeric }}</span>
+      <span 
+        class="month_day" 
+        v-for="day in page.days"
+        :class="{'is-prev-month': isPrevDate(day), 'is-next-moth': isNextDate(day), 'is-selected': isSelected(day) }"
+      >
+        {{ day.day.numeric }}
+      </span>
     </div>
   </div>
 </template>
 
 <script>
 import DateTime from "./../services/datetime";
-
-import { reactive, ref, onMounted } from "vue";
+import { computed } from "vue";
 
 export default {
   name: "Calendar",
@@ -33,14 +38,30 @@ export default {
       type: Array,
       required: true
     },
-    year: String,
-    month: String
   },
-  setup() {
+  setup(props) {
     const now = new DateTime();
 
+    const month = props.page.month;
+    const reservation = props.page.reservation;
+
+    // when the accessibility feature will be available 
+    const isAvailable = day => true;
+
+    // is day between begin and end of reservation
+    const isSelected = day => day.date >= reservation.begin.date && day.date <= reservation.end.date;
+    const isBegin = day => day.date === reservation.begin.date;
+    const isEnd = day => day.date === reservation.end.date;
+    const isPrevDate = day => day.timestamp < month.timestamp && (day.year < month.year || day.month.index < month.month.index);
+    const isNextDate = day => day.timestamp > month.timestamp && (day.month.index > month.month.index || day.year > month.year); 
+
     return {
-      now
+      now,
+      isPrevDate,
+      isNextDate,
+      isSelected,
+      isBegin,
+      isEnd
     };
   },
 };
