@@ -24,8 +24,21 @@ describe("DateTime service class wrapper", () => {
                 numeric: '6',
                 digit: '06',
                 long: 'June',
-                short: 'Jun'
+                short: 'Jun',
+                days: 30
             })
-        })
+        });
+
+        test('`monthIndex` should return index of current month', () => {
+            expect(dt.monthIndex).toBe(5);
+        });
+
+        test('`weekDay` should return the current weekday representations for the current date, as: index, long (string), short', () => {
+            expect(dt.weekDay).toEqual({
+                index: 3,
+                long: 'Wednesday',
+                short: 'Wed'
+            });
+        });
     })
 })
