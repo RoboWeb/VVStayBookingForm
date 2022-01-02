@@ -129,7 +129,7 @@ export class DateTime {
     }
 
     /**
-     * @return {Object} arrays of the names of the days of the week: { long: [Sunday,..,Saturday], short: [Sun,..,Sat] }
+     * @return {Object} arrays of the names of the days of the week: { index: [0,..,6], long: [Sunday,..,Saturday], short: [Sun,..,Sat] }
      * accordingly to the first day of the week (Sunday||Monday|| ...)
      */
     get weekDays() {

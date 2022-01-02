@@ -40,5 +40,17 @@ describe("DateTime service class wrapper", () => {
                 short: 'Wed'
             });
         });
+
+        test('`weekDayIndex` should return index of weekday for current date', () => {
+            expect(dt.weekDayIndex).toBe(3);
+        });
+
+        test('`weekDays` should return Object with arrays of weekdays, as: [indexes], [long names], [short names]', () => {
+            expect(dt.weekDays).toEqual({
+                index: [1, 2, 3, 4, 5, 6, 0],
+                long: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            });
+        });
     })
 })
