@@ -73,34 +73,23 @@ export default {
     },
     setup(props, { emit }) {
         const calendarVisible = ref(false);
-        const calendarPage = reactive({
-            days: [],
-            month: '',
-            unavailable: [],
-            reservation: {}
-        });
 
         const beginDate = computed(() => new DateTime(props.reservation.begin));
         const endDate = computed(() => new DateTime(props.reservation.end));
         
+        const calendarPage = {
+            days: CalendarPage(beginDate.value),
+            month: new DateTime(beginDate.value.year, beginDate.value.monthIndex, 1, 12),
+            unavailable: [],
+            reservation: {
+                begin: beginDate.value,
+                end: endDate.value
+            }
+        };
         // emits
         const confirmReservation = () => {
             emit('reserve', { begin: beginDate.value.ISODate, end: endDate.value.ISODate });
         }
-
-        // methods
-        
-
-        // mounted
-        onMounted(() => {
-            calendarPage.days = CalendarPage(beginDate.value);
-            calendarPage.month = new DateTime(beginDate.value.year, beginDate.value.month.index, 1, 12);
-            calendarPage.reservation = {
-                begin: beginDate.value,
-                end: endDate.value
-            }
-        });
-       
 
         return {
             calendarVisible,

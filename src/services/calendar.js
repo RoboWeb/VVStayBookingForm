@@ -8,7 +8,7 @@ const setCalendarPageFirstDay = (monthFirstDay) => {
 
     const firstDayOfPage = new DateTime(
         monthFirstDay.year, 
-        monthFirstDay.month.index, 
+        monthFirstDay.monthIndex, 
         monthFirstDay.day.numeric - days2subtraction, 
         12
     );
@@ -17,8 +17,7 @@ const setCalendarPageFirstDay = (monthFirstDay) => {
 }
 
 export const CalendarPage = (visibleMonth) => {
-    console.log("getCalendarPage", { visibleMonth, type: typeof visibleMonth });
-    const monthFirstDayDateTime = new DateTime(visibleMonth.year, visibleMonth.month.index, 1, 12)
+    const monthFirstDayDateTime = new DateTime(visibleMonth.year, visibleMonth.monthIndex, 1, 12)
     const calendarPageFirstDayDateTime = setCalendarPageFirstDay(monthFirstDayDateTime);
 
     let calendarPage = [];
@@ -30,7 +29,7 @@ export const CalendarPage = (visibleMonth) => {
     calendarPage.push(day);
 
     do {
-        day = new DateTime(day.year, day.month.index, Number(day.day.numeric) + 1, 12);
+        day = new DateTime(day.year, day.monthIndex, Number(day.day.numeric) + 1, 12);
         calendarPage.push(day);
         weekDayIndex++;
         if (weekDayIndex > 6) weekDayIndex = 0; 

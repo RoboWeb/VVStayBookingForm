@@ -29,7 +29,6 @@
 
 <script>
 import DateTime from "./../services/datetime";
-import { computed } from "vue";
 
 export default {
   name: "Calendar",
@@ -42,7 +41,9 @@ export default {
   setup(props) {
     const now = new DateTime();
 
-    const month = props.page.month;
+    const monthIndex = props.page.month.index;
+    const monthTimestamp = props.page.month.timestamp;
+    const year = props.page.month.year;
     const reservation = props.page.reservation;
 
     // when the accessibility feature will be available 
@@ -52,8 +53,8 @@ export default {
     const isSelected = day => day.date >= reservation.begin.date && day.date <= reservation.end.date;
     const isBegin = day => day.date === reservation.begin.date;
     const isEnd = day => day.date === reservation.end.date;
-    const isPrevDate = day => day.timestamp < month.timestamp && (day.year < month.year || day.month.index < month.month.index);
-    const isNextDate = day => day.timestamp > month.timestamp && (day.month.index > month.month.index || day.year > month.year); 
+    const isPrevDate = day => day.timestamp < monthTimestamp && (day.year < year || day.month.index < monthIndex);
+    const isNextDate = day => day.timestamp > monthTimestamp && (day.month.index > monthIndex || day.year > year); 
 
     return {
       now,
