@@ -64,5 +64,13 @@ describe("DateTime service class wrapper", () => {
         test('`formattedDate` should return date formatted based on locale value (eg.: en-US)', () => {
             expect(dt.formattedDate).toBe('June 1, 2022');
         });
+
+        test('`ISODate` should return date formatted following the ISO 8601 Extended Format', () => {
+            expect(dt.ISODate).toBe('2022-06-01T00:00:00.000Z');
+        });
+
+        test('`timestamp` should retunr date as number of miliseconds since January 1, 1970, 00:00:00 UTC', () => {
+            expect(dt.timestamp).toBe(1654041600000);
+        })
     })
 })
