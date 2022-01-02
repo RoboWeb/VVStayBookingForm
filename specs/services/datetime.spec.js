@@ -52,5 +52,17 @@ describe("DateTime service class wrapper", () => {
                 short: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             });
         });
+
+        test('`year` should return numeric representation of year for current date', () => {
+            expect(dt.year).toBe(2022);
+        });
+
+        test('`date` should return date with year, month and day as number', () => {
+            expect(dt.date).toBe(20220601);
+        });
+
+        test('`formattedDate` should return date formatted based on locale value (eg.: en-US)', () => {
+            expect(dt.formattedDate).toBe('June 1, 2022');
+        });
     })
 })
