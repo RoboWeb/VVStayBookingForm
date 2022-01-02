@@ -34,7 +34,7 @@ export default {
   name: "Calendar",
   props: {
     page: {
-      type: Array,
+      type: Object,
       required: true
     },
   },

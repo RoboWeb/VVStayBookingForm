@@ -83,12 +83,27 @@ export class DateTime {
     }
 
     /**
-     * @return {Object} name and index of the month: { index: 0-11, long: January-December, short: Jan-Dec }
+     * @return {Object} name and index of the month: 
+     * { 
+     *  index: 0-11, 
+     *  numeric: 1-12, 
+     *  digit: 01-12, 
+     *  long: January-December, 
+     *  short: Jan-Dec,
+     *  days: (number of days in current month)
+     * }
      */
     get month() {
         const digit = new Intl.DateTimeFormat(this._locale, { month: '2-digit' }).format(this._date);
         const numeric = new Intl.DateTimeFormat(this._locale, { month: 'numeric' }).format(this._date);
-        return { index: this.monthIndex, numeric: numeric, digit: digit, long: this._monthName[this.monthIndex], short: this._monthNameShort[this.monthIndex], days: this._lastDay };
+        return { 
+            index: this.monthIndex, 
+            numeric: numeric, 
+            digit: digit, 
+            long: this._monthName[this.monthIndex], 
+            short: this._monthNameShort[this.monthIndex], 
+            days: this._lastDay 
+        };
     }
 
     /**
