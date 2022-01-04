@@ -75,6 +75,22 @@ describe("DateTime service class wrapper", () => {
     });
 
     describe("setters", () => {
-        
+        describe('`weekFirstDay` set - should change values returned by', () => {
+            beforeEach(() => {
+                dt.weekFirstDay = 3;
+            });
+
+            test('getter `weekFirstDay`', () => {
+                expect(dt.weekFirstDay).toBe(3);
+            });
+            
+            test('getter `weekDays`', () => {
+                expect(dt.weekDays).toEqual({
+                    index: [3, 4, 5, 6, 0, 1, 2],
+                    long: [ 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday'],
+                    short: [ 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Mon', 'Tue']
+                });
+            });
+        });
     });
 })
