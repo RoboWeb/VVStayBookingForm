@@ -96,12 +96,12 @@ export default {
         }
 
         // watchers
-        watch(calendarVisible, (visible, prev) => {
-            if (prev) {
+        watch(calendarVisible, (visible, notVisible) => {
+            if (notVisible) {
                 calendarPageMonth.value = null;
                 setPage(beginDate.value);
             }
-        })
+        });
 
         // methods
         const setPage = newDate => {

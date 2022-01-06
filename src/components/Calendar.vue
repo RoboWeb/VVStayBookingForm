@@ -21,7 +21,7 @@
         v-for="day in page.days"
         :class="{'is-prev-month': isPrevDate(day), 'is-next-moth': isNextDate(day), 'is-selected': isSelected(day), 'is-begin': isBegin(day), 'is-end': isEnd(day) }"
       >
-        <span>{{ day.day.numeric }}</span>
+        <span @click="setNewReservationDates(day)" >{{ day.day.numeric }}</span>
       </div>
     </div>
   </div>
@@ -29,7 +29,7 @@
 
 <script>
 import DateTime from "./../services/datetime";
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 
 export default {
   name: "Calendar",
@@ -43,25 +43,35 @@ export default {
   setup(props, { emit }) {
     const now = new DateTime();
 
-console.log("props", props)
-
     const monthIndex = computed(() => props.page.monthOfPage.monthIndex);
     const monthTimestamp = computed(() => props.page.monthOfPage.timestamp);
     const year = computed(() => props.page.monthOfPage.year);
-    const reservation = props.page.reservation;
+    const reservation = reactive(props.page.reservation);
 
     // when the accessibility feature will be available 
     const isAvailable = day => true;
 
     // is day between begin and end of reservation
-    const isSelected = day => day.date >= reservation.begin.date && day.date <= reservation.end.date;
-    const isBegin = day => day.date === reservation.begin.date;
-    const isEnd = day => day.date === reservation.end.date;
+    const isSelected = day => reservation.begin && reservation.end ? day.date >= reservation.begin.date && day.date <= reservation.end.date : false;
+    const isBegin = day => reservation.begin ? day.date === reservation.begin.date : false;
+    const isEnd = day => reservation.end ? day.date === reservation.end.date : false;
     const isPrevDate = day => day.timestamp < monthTimestamp.value && (day.year < year.value || day.month.index < monthIndex.value);
     const isNextDate = day => day.timestamp > monthTimestamp.value && (day.month.index > monthIndex.value || day.year > year.value);
 
     // methods
-  
+    const setNewReservationDates = newDate => {
+      if (reservation.begin && reservation.end) {
+        reservation.begin = newDate;
+        reservation.end = null;
+      } else if (reservation.end === null) {
+        if (newDate.date >= reservation.begin.date) {
+          reservation.end = newDate;
+        } else {
+          reservation.end = reservation.begin;
+          reservation.begin = newDate;
+        }
+      }
+    }
 
     return {
       now,
@@ -69,7 +79,9 @@ console.log("props", props)
       isNextDate,
       isSelected,
       isBegin,
-      isEnd
+      isEnd,
+      setNewReservationDates,
+      reservation
     };
   },
 };
@@ -112,22 +124,21 @@ console.log("props", props)
     }
     &_day {
       padding: 8px 4px 5px 4px;
+      position: relative;
       &.is-prev-month,
       &.is-next-moth,
       &.is-unavailable {
         color: var(--primary-color-lighter);
       }
-      &.is-selected {
-        position: relative;
-        color: var(--secondary-color);
-        &::before,
+
+      &::before,
         &::after {
           position: absolute;
           content: '';
           width: 50%;
           top: 0;
           bottom: 0;
-          background-color: rgba(var(--tertiary-bg-color-rgb), 0.1);
+          background-color: transparent;
           z-index: 1;
         }
         &::before {
@@ -138,6 +149,17 @@ console.log("props", props)
           left: unset;
           right: 0;
         }
+
+      &.is-selected {
+        color: var(--secondary-color);
+        &::before,
+        &::after {
+         
+          content: '';
+          
+          background-color: rgba(var(--tertiary-bg-color-rgb), 0.1);
+        }
+
       }
       &.is-begin {
         color: var(--tertiary-color) !important;
