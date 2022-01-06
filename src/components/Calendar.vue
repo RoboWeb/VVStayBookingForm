@@ -1,16 +1,16 @@
 <template>
   <div class="calendar-wrapper">
     <div class="pseudo-input month-switcher">
-      <icon-chevron chevron="left" class="btn btn-icon"></icon-chevron>
+      <icon-chevron chevron="left" class="btn btn-icon" @click="$emit('prev')"></icon-chevron>
       <span class="date month-year">
         <span class="date_displaying date_displaying-month">
-          {{ page.month.month.long }}
+          {{ page.monthOfPage.month.long }}
         </span>
         <span class="date_displaying date_displaying-year">
-          {{ page.month.year }}
+          {{ page.monthOfPage.year }}
         </span>
       </span>
-      <icon-chevron chevron="right" class="btn btn-icon"></icon-chevron>
+      <icon-chevron chevron="right" class="btn btn-icon" @click="$emit('next')"></icon-chevron>
     </div>
     <div class="week-days">
       <span class="week-days_day-name" v-for="day in now.weekDays.short">{{ day }}</span>
@@ -29,6 +29,7 @@
 
 <script>
 import DateTime from "./../services/datetime";
+import { computed } from 'vue';
 
 export default {
   name: "Calendar",
@@ -38,12 +39,15 @@ export default {
       required: true
     },
   },
-  setup(props) {
+  emits: ['next', 'prev'],
+  setup(props, { emit }) {
     const now = new DateTime();
 
-    const monthIndex = props.page.month.index;
-    const monthTimestamp = props.page.month.timestamp;
-    const year = props.page.month.year;
+console.log("props", props)
+
+    const monthIndex = computed(() => props.page.monthOfPage.monthIndex);
+    const monthTimestamp = computed(() => props.page.monthOfPage.timestamp);
+    const year = computed(() => props.page.monthOfPage.year);
     const reservation = props.page.reservation;
 
     // when the accessibility feature will be available 
@@ -53,8 +57,11 @@ export default {
     const isSelected = day => day.date >= reservation.begin.date && day.date <= reservation.end.date;
     const isBegin = day => day.date === reservation.begin.date;
     const isEnd = day => day.date === reservation.end.date;
-    const isPrevDate = day => day.timestamp < monthTimestamp && (day.year < year || day.month.index < monthIndex);
-    const isNextDate = day => day.timestamp > monthTimestamp && (day.month.index > monthIndex || day.year > year); 
+    const isPrevDate = day => day.timestamp < monthTimestamp.value && (day.year < year.value || day.month.index < monthIndex.value);
+    const isNextDate = day => day.timestamp > monthTimestamp.value && (day.month.index > monthIndex.value || day.year > year.value);
+
+    // methods
+  
 
     return {
       now,

@@ -23,14 +23,14 @@
                     <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
                     <icon-times class="btn btn-icon btn-small"></icon-times>
                 </div>
-                <calendar v-if="calendarVisible" :page="calendarPage" ></calendar>
+                <calendar v-if="calendarVisible" :page="calendarPage" @next="setNextPage" @prev="setPrevPage" ></calendar>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import DateTime from "./../services/datetime";
 import CalendarPage from "./../services/calendar";
 import ratingStars from './parts/ratingStars.vue';
@@ -73,22 +73,48 @@ export default {
     },
     setup(props, { emit }) {
         const calendarVisible = ref(false);
+        const calendarPageMonth = ref(null);
 
         const beginDate = computed(() => new DateTime(props.reservation.begin));
         const endDate = computed(() => new DateTime(props.reservation.end));
+        const monthOfPage = computed(() => calendarPageMonth.value || beginDate.value);
+        const daysOnPage = computed(() => CalendarPage(monthOfPage.value));
+
         
-        const calendarPage = {
-            days: CalendarPage(beginDate.value),
-            month: new DateTime(beginDate.value.year, beginDate.value.monthIndex, 1, 12),
+        const calendarPage = reactive({
+            days: daysOnPage.value,
+            monthOfPage: monthOfPage.value,
             unavailable: [],
             reservation: {
                 begin: beginDate.value,
                 end: endDate.value
             }
-        };
+        });
         // emits
         const confirmReservation = () => {
             emit('reserve', { begin: beginDate.value.ISODate, end: endDate.value.ISODate });
+        }
+
+        // watchers
+        watch(calendarVisible, (visible, prev) => {
+            if (prev) {
+                calendarPageMonth.value = null;
+                setPage(beginDate.value);
+            }
+        })
+
+        // methods
+        const setPage = newDate => {
+            calendarPageMonth.value = newDate;
+            calendarPage.monthOfPage = monthOfPage.value;
+            calendarPage.days = daysOnPage.value;
+        }
+        const setNextPage = () => {
+            setPage(new DateTime(monthOfPage.value.year, monthOfPage.value.monthIndex + 1, 1, 12));
+        }
+
+        const setPrevPage = () => {
+            setPage(new DateTime(monthOfPage.value.year, monthOfPage.value.monthIndex - 1, 1, 12));
         }
 
         return {
@@ -96,7 +122,9 @@ export default {
             calendarPage,
             beginDate,
             endDate,
-            confirmReservation
+            confirmReservation,
+            setNextPage,
+            setPrevPage
         }
     }
 }
