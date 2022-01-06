@@ -23,7 +23,7 @@ export const CalendarPage = (visibleMonth) => {
     let calendarPage = [];
     let day = calendarPageFirstDayDateTime;
     let weekDayIndex = WEEK_FIRST_DAY_INDEX;
-    let weeks = 0;
+    let itLastDayOnPage = false;
     let pageHasFullMonth = false;
 
     calendarPage.push(day);
@@ -32,10 +32,12 @@ export const CalendarPage = (visibleMonth) => {
         day = new DateTime(day.year, day.monthIndex, Number(day.day.numeric) + 1, 12);
         calendarPage.push(day);
         weekDayIndex++;
+
         if (weekDayIndex > 6) weekDayIndex = 0; 
-        if (weekDayIndex === WEEK_LAST_DAY_INDEX) weeks++;
-        if (day.day.numeric === visibleMonth.month.days) pageHasFullMonth = true;
-    } while (weeks < 6 && !pageHasFullMonth)
+        if (day.monthIndex === visibleMonth.monthIndex && Number(day.day.numeric) === Number(visibleMonth.month.days)) pageHasFullMonth = true;
+        if (pageHasFullMonth && weekDayIndex === WEEK_LAST_DAY_INDEX) itLastDayOnPage = true;
+        
+    } while (!itLastDayOnPage)
 
     return [...calendarPage];
 }
