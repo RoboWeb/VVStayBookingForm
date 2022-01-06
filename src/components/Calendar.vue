@@ -108,7 +108,6 @@ export default {
   .month {
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
-    // grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
     gap: 4px 0; 
     grid-template-areas: 
       ". . . . . . ."
@@ -132,34 +131,48 @@ export default {
       }
 
       &::before,
+      &::after {
+        position: absolute;
+        content: '';
+        width: 50%;
+        top: 0;
+        bottom: 0;
+        background-color: transparent;
+        z-index: 1;
+      }
+      &::before {
+        left: 0;
+        right: unset;
+      }
+      &::after {
+        left: unset;
+        right: 0;
+      }
+
+      &:hover {
         &::after {
-          position: absolute;
-          content: '';
-          width: 50%;
-          top: 0;
-          bottom: 0;
-          background-color: transparent;
-          z-index: 1;
+          border-radius: var(--border-radius-round);
+          background-color: rgba(var(--primary-color-lighter-rgb), 0.6);
+          right: 5px;
+          width: 75%;
         }
-        &::before {
-          left: 0;
-          right: unset;
-        }
-        &::after {
-          left: unset;
-          right: 0;
-        }
+      }
 
       &.is-selected {
         color: var(--secondary-color);
         &::before,
         &::after {
-         
           content: '';
-          
           background-color: rgba(var(--tertiary-bg-color-rgb), 0.1);
         }
-
+        &::before {
+          left: 0;
+          width: 50%;
+        }
+        &::after {
+          right: 0;
+          width: 50%;
+        }
       }
       &.is-begin {
         color: var(--tertiary-color) !important;
