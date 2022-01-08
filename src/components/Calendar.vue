@@ -29,7 +29,7 @@
 
 <script>
 import DateTime from "./../services/datetime";
-import { computed, reactive } from 'vue';
+import { computed, reactive, onMounted } from 'vue';
 
 export default {
   name: "Calendar",
@@ -38,15 +38,19 @@ export default {
       type: Object,
       required: true
     },
+    reservation: {
+      type: Object,
+      default: { begin: null, end: null }
+    }
   },
-  emits: ['next', 'prev'],
+  emits: ['next', 'prev', 'change'],
   setup(props, { emit }) {
     const now = new DateTime();
 
     const monthIndex = computed(() => props.page.monthOfPage.monthIndex);
     const monthTimestamp = computed(() => props.page.monthOfPage.timestamp);
     const year = computed(() => props.page.monthOfPage.year);
-    const reservation = reactive(props.page.reservation);
+    const reservation = reactive({...props.reservation});
 
     // when the accessibility feature will be available 
     const isAvailable = day => true;
@@ -60,18 +64,37 @@ export default {
 
     // methods
     const setNewReservationDates = newDate => {
+      
       if (reservation.begin && reservation.end) {
-        reservation.begin = newDate;
-        reservation.end = null;
+        if (newDate.date < reservation.begin.date) reservation.begin = newDate;
+        else if (newDate.date > reservation.end.date) reservation.end = newDate;
+        else {
+          reservation.begin = newDate;
+          reservation.end = null;
+        }
       } else if (reservation.end === null) {
-        if (newDate.date >= reservation.begin.date) {
+        if (newDate.date > reservation.begin.date) {
           reservation.end = newDate;
         } else {
           reservation.end = reservation.begin;
           reservation.begin = newDate;
         }
+      } else if (reservation.begin === null) {
+        if (newDate.date < reservation.end.date) {
+          reservation.begin = newDate;
+        } else {
+          reservation.end = reservation.begin;
+          reservation.begin = newDate;
+        }
       }
+      emit('change', { begin: reservation.begin?.ISODate || null, end: reservation.end?.ISODate || null });
     }
+
+    onMounted(() => {
+      reservation.begin = props.reservation.begin;
+      reservation.end = props.reservation.end;
+      console.log('Calndar onMounted', reservation, props.reservation)
+    })
 
     return {
       now,
@@ -97,7 +120,7 @@ export default {
   left: 0;
   right: 0;
   position: absolute;
-  top: calc(100% + 1em);
+  top: calc(100%);
   background-color: var(--primary-bg-color);
   color: var(--primary-color);
   font-size: var(--base-font-size);

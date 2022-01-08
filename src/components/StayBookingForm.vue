@@ -1,5 +1,5 @@
 <template>
-    <div class="stay-booking-form" @click="calendarVisible = false">
+    <div class="stay-booking-form" >
         <div class="row">
             <div class="column">
                 <span class="price">{{ price }}</span>
@@ -13,24 +13,39 @@
             </div>
         </div>
         <div class="row">
-            <div class="pseudo-input date-range" @click.stop="calendarVisible = true" >
+            <div class="pseudo-input date-range" @click.stop="calendarVisible = true" @mouseleave="calendarVisible = false" >
                 <div class="date-range_begin pseudo-input_date">
-                    <span class="date">{{ beginDate.day.numeric }} {{ beginDate.month.short }} {{ beginDate.year }}</span>
-                    <icon-times class="btn btn-icon btn-small"></icon-times>
+                    <span class="date">
+                        {{ beginDate?.day.numeric || '??' }}&nbsp;
+                        {{ beginDate?.month.short || '???' }}&nbsp;
+                        {{ beginDate?.year || '????' }}
+                    </span>
+                    <icon-times class="btn btn-icon btn-small" @click="rBeginDate = null"></icon-times>
                 </div>
                 <icon-arrow></icon-arrow>
                 <div class="date-range_end pseudo-input_date">
-                    <span class="date">{{ endDate.day.numeric }} {{ endDate.month.short }} {{ endDate.year }}</span>
-                    <icon-times class="btn btn-icon btn-small"></icon-times>
+                    <span class="date">
+                        {{ endDate?.day.numeric || '??' }}&nbsp;
+                        {{ endDate?.month.short || '???' }}&nbsp;
+                        {{ endDate?.year || '????' }}
+                    </span>
+                    <icon-times class="btn btn-icon btn-small" @click="rEndDate = null"></icon-times>
                 </div>
-                <calendar v-if="calendarVisible" :page="calendarPage" @next="setNextPage" @prev="setPrevPage" ></calendar>
+                <calendar 
+                    v-if="calendarVisible" 
+                    :page="calendarPage" 
+                    :reservation="{begin: beginDate, end: endDate}" 
+                    @next="setNextPage" 
+                    @prev="setPrevPage"
+                    @change="newReservationDates"
+                ></calendar>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import DateTime from "./../services/datetime";
 import CalendarPage from "./../services/calendar";
 import ratingStars from './parts/ratingStars.vue';
@@ -64,7 +79,7 @@ export default {
     emits: {
         'reserve': ({begin, end}) => {
             console.log("Emit event reserve", begin, end);
-            return true;
+            return begin && end;
         }
     },
     components:{
@@ -75,24 +90,23 @@ export default {
         const calendarVisible = ref(false);
         const calendarPageMonth = ref(null);
 
-        const beginDate = computed(() => new DateTime(props.reservation.begin));
-        const endDate = computed(() => new DateTime(props.reservation.end));
-        const monthOfPage = computed(() => calendarPageMonth.value || beginDate.value);
+        const rBeginDate = ref(null);
+        const rEndDate = ref(null);
+
+        const beginDate = computed(() => rBeginDate.value ? new DateTime(rBeginDate.value) : null);
+        const endDate = computed(() => rEndDate.value ? new DateTime(rEndDate.value) : null);
+        const monthOfPage = computed(() => calendarPageMonth.value || beginDate.value || new DateTime());
         const daysOnPage = computed(() => CalendarPage(monthOfPage.value));
 
         
         const calendarPage = reactive({
             days: daysOnPage.value,
             monthOfPage: monthOfPage.value,
-            unavailable: [],
-            reservation: {
-                begin: beginDate.value,
-                end: endDate.value
-            }
+            unavailable: []
         });
         // emits
         const confirmReservation = () => {
-            emit('reserve', { begin: beginDate.value.ISODate, end: endDate.value.ISODate });
+            emit('reserve', { begin: beginDate.value?.ISODate, end: endDate.value?.ISODate });
         }
 
         // watchers
@@ -117,14 +131,27 @@ export default {
             setPage(new DateTime(monthOfPage.value.year, monthOfPage.value.monthIndex - 1, 1, 12));
         }
 
+        const newReservationDates = ({begin, end}) => {
+            rBeginDate.value = begin;
+            rEndDate.value = end;
+        }
+
+        onMounted(() => {
+            rBeginDate.value = props.reservation.begin;
+            rEndDate.value = props.reservation.end;
+            setPage(beginDate.value)
+        })
         return {
             calendarVisible,
             calendarPage,
+            rBeginDate,
+            rEndDate,
             beginDate,
             endDate,
             confirmReservation,
             setNextPage,
-            setPrevPage
+            setPrevPage,
+            newReservationDates
         }
     }
 }
