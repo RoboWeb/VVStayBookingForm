@@ -8,8 +8,9 @@
   <icon-star fill="green" filled="empty"></icon-star>
   <icon-times></icon-times>
 
-  <div>
-    {{ getDate.formattedDate }}
+  <div class="formatted-dates">
+    <span>Begin: <strong>{{ getBeginDate.formattedDate }}</strong></span>
+    <span>End: <strong>{{ getEndDate.formattedDate }}</strong></span>
   </div>
 
   <stay-booking-form 
@@ -17,6 +18,7 @@
     :ratings="ratings"
     :rating="rating"
     :reservation="reservation"
+    @reserve="datesChanged"
   ></stay-booking-form>
 
 </template>
@@ -39,16 +41,27 @@ export default {
         begin: "2022-01-12",
         end: "2022-01-20"
       },
-      date: ''
+      beginDate: '',
+      endDate: ''
     }
   },
   computed: {
-    getDate() {
-      return this.date;
+    getBeginDate() {
+      return this.beginDate;
+    },
+    getEndDate() {
+      return this.endDate;
+    }
+  },
+  methods: {
+    datesChanged(event) {
+      this.beginDate = new DateTime(event.begin);
+      this.endDate = new DateTime(event.end);
     }
   },
   mounted() {
-    this.date = new DateTime(this.reservation.begin);
+    this.beginDate = new DateTime(this.reservation.begin);
+    this.endDate = new DateTime(this.reservation.end);
   }
 }
 </script>
@@ -61,6 +74,16 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.formatted-dates {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  span {
+    margin: 1rem;
+  }
 }
 
 .icon {
