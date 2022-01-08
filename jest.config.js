@@ -11,5 +11,5 @@ module.exports = {
         "^.+\\.vue$": "vue-jest"
     },
     "collectCoverage": true,
-    "collectCoverageFrom": ["**/src/components/*.{js,vue}", "!**/src/main.js", "!**/node_modules/**"]
+    "collectCoverageFrom": ["**/src/components/*.{js,vue}", "**/src/services/*.{js,vue}",  "!**/src/main.js", "!**/node_modules/**"]
   }

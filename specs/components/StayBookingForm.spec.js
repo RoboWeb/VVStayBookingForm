@@ -247,9 +247,6 @@ describe("StayBookingForm component elements:", () => {
 
                 const calendar = wrapper.find('calendar-stub');
                 expect(calendar.exists()).toBeFalsy();
-
-                console.log(wrapper.vm.calendarPage.monthOfPage.date, wrapper.vm.beginDate.date)
-                expect(wrapper.vm.calendarPage.monthOfPage.date === wrapper.vm.beginDate.date).toBeTruthy();
             });
         })
     });
