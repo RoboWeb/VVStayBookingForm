@@ -16,8 +16,8 @@
             <div class="pseudo-input date-range" @click.stop="calendarVisible = true" @mouseleave="calendarVisible = false" >
                 <div class="date-range_begin pseudo-input_date">
                     <span class="date">
-                        {{ beginDate?.day.numeric || '??' }}&nbsp;
-                        {{ beginDate?.month.short || '???' }}&nbsp;
+                        {{ beginDate?.day.numeric || '??' }} 
+                        {{ beginDate?.month.short || '???' }} 
                         {{ beginDate?.year || '????' }}
                     </span>
                     <icon-times class="btn btn-icon btn-small" @click="rBeginDate = null"></icon-times>
@@ -25,8 +25,8 @@
                 <icon-arrow></icon-arrow>
                 <div class="date-range_end pseudo-input_date">
                     <span class="date">
-                        {{ endDate?.day.numeric || '??' }}&nbsp;
-                        {{ endDate?.month.short || '???' }}&nbsp;
+                        {{ endDate?.day.numeric || '??' }} 
+                        {{ endDate?.month.short || '???' }} 
                         {{ endDate?.year || '????' }}
                     </span>
                     <icon-times class="btn btn-icon btn-small" @click="rEndDate = null"></icon-times>
@@ -78,7 +78,6 @@ export default {
     },
     emits: {
         'reserve': ({begin, end}) => {
-            console.log("Emit event reserve", begin, end);
             return begin && end;
         }
     },
