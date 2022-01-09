@@ -1,6 +1,6 @@
 {
   "name": "stay-booking-form",
-  "version": "0.0.0",
+  "version": "0.1.0-beta",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
