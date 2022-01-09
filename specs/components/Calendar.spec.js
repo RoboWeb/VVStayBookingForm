@@ -69,6 +69,17 @@ describe('Calendar component', () => {
                 const iconChevron = monthSwitcher.find('icon-chevron-stub[chevron="right"]');
                 expect(iconChevron.exists()).toBeTruthy();
             });
+        });
+
+        describe('week days row', () => {
+            let weekDays;
+            beforeEach(() => {
+                weekDays = wrapper.find('.week-days');
+            });
+
+            it('exists', () => {
+                expect(weekDays.exists()).toBeTruthy();
+            })
         })
     })
 });
