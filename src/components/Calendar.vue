@@ -20,8 +20,9 @@
         class="month_day" 
         v-for="day in page.days"
         :class="{'is-prev-month': isPrevDate(day), 'is-next-month': isNextDate(day), 'is-selected': isSelected(day), 'is-begin': isBegin(day), 'is-end': isEnd(day) }"
+        @click="setNewReservationDates(day)"
       >
-        <span @click="setNewReservationDates(day)" >{{ day.day.numeric }}</span>
+        <span>{{ day.day.numeric }}</span>
       </div>
     </div>
   </div>
@@ -83,8 +84,8 @@ export default {
         if (newDate.date < reservation.end.date) {
           reservation.begin = newDate;
         } else {
-          reservation.end = reservation.begin;
-          reservation.begin = newDate;
+          reservation.begin = reservation.end;
+          reservation.end = newDate;
         }
       } else {
         reservation.begin = newDate;

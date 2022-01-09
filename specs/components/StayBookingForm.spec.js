@@ -177,7 +177,7 @@ describe("StayBookingForm component elements:", () => {
             expect(wrapper.emitted().reserve[0][0]).toEqual({
                 begin: expectation_mocks.begin_reserve_event_1,
                 end: expectation_mocks.end_reserve_event_1
-            })
+            });
         });
     });
 
