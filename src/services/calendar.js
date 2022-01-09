@@ -18,10 +18,9 @@ const setCalendarPageFirstDay = (monthFirstDay) => {
 
 export const CalendarPage = (visibleMonth) => {
     const monthFirstDayDateTime = new DateTime(visibleMonth.year, visibleMonth.monthIndex, 1, 12)
-    const calendarPageFirstDayDateTime = setCalendarPageFirstDay(monthFirstDayDateTime);
 
     let calendarPage = [];
-    let day = calendarPageFirstDayDateTime;
+    let day = setCalendarPageFirstDay(monthFirstDayDateTime);
     let weekDayIndex = WEEK_FIRST_DAY_INDEX;
     let itLastDayOnPage = false;
     let pageHasFullMonth = false;

@@ -93,7 +93,6 @@ export default {
     onMounted(() => {
       reservation.begin = props.reservation.begin;
       reservation.end = props.reservation.end;
-      console.log('Calndar onMounted', reservation, props.reservation)
     })
 
     return {
