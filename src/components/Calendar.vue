@@ -72,20 +72,23 @@ export default {
           reservation.begin = newDate;
           reservation.end = null;
         }
-      } else if (reservation.end === null) {
+      } else if (reservation.end === null && reservation.begin !== null) {
         if (newDate.date > reservation.begin.date) {
           reservation.end = newDate;
         } else {
           reservation.end = reservation.begin;
           reservation.begin = newDate;
         }
-      } else if (reservation.begin === null) {
+      } else if (reservation.begin === null && reservation.end !== null) {
         if (newDate.date < reservation.end.date) {
           reservation.begin = newDate;
         } else {
           reservation.end = reservation.begin;
           reservation.begin = newDate;
         }
+      } else {
+        reservation.begin = newDate;
+        reservation.end = null;
       }
       emit('change', { begin: reservation.begin?.ISODate || null, end: reservation.end?.ISODate || null });
     }

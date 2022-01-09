@@ -107,37 +107,70 @@ describe('Calendar component', () => {
                 expect(days).toHaveLength(35);
             });
 
-            it('have a 1 day of prev month', () => {
+            it('has a 1 day of prev month', () => {
                 const prevDays = page.findAll('.is-prev-month');
                 expect(prevDays).toHaveLength(1);
             });
 
-            it('have a 6 days of next month', () => {
+            it('has a 6 days of next month', () => {
                 const nextDays = page.findAll('.is-next-month');
                 expect(nextDays).toHaveLength(6);
             })
 
-            it('have a 28 days of current (mocked) month', () => {
+            it('has a 28 days of current (mocked) month', () => {
                 const currentDays = page.findAll('.month_day:not(.is-prev-month,.is-next-month)');
                 expect(currentDays).toHaveLength(28);
             });
 
-            it('have a 6 selected days', () => {
+            it('has a 6 selected days', () => {
                 const selected = page.findAll('.is-selected');
                 expect(selected).toHaveLength(6);
             });
 
-            it('have 1 selected day what is first of reservation', () => {
+            it('has 1 selected day which is the first day of the reservation', () => {
                 const beginDay = page.findAll('.is-begin');
                 expect(beginDay).toHaveLength(1);
                 expect(beginDay[0].text()).toEqual('5');
             });
 
-            it('have 1 selected day what is last of reservation', () => {
+            it('has 1 selected day which is the last day of the reservation', () => {
                 const endDay = page.findAll('.is-end');
                 expect(endDay).toHaveLength(1);
                 expect(endDay[0].text()).toEqual('10');
             });
         });
-    })
+    });
+
+    describe('@events', () => {
+        describe('Month switcher events:', () => {
+            let monthSwitcher, monthSwitcherNextBtn, monthSwitcherPrevBtn;
+
+            beforeEach(() => {
+                monthSwitcher = wrapper.find('.month-switcher');
+                monthSwitcherPrevBtn = monthSwitcher.find('icon-chevron-stub[chevron="left"]');
+                monthSwitcherNextBtn = monthSwitcher.find('icon-chevron-stub[chevron="right"]');
+            });
+
+            test('icon-chevron left button should emit event `prev` after click', () => {              
+                monthSwitcherPrevBtn.trigger('click');
+                expect(wrapper.emitted()).toHaveProperty('prev');
+            });
+
+            test('icon-chevron right button should emit event `next` after click', () => {
+                monthSwitcherNextBtn.trigger('click');
+                expect(wrapper.emitted()).toHaveProperty('next');
+            });
+        });
+
+        describe('days of calendar page event:', () => {
+            let page, days;
+
+            beforeEach(() => {
+                page = wrapper.find('.month');
+                days = page.find('.month_day');
+            });
+
+            
+        });
+    });
 });
