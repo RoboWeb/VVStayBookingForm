@@ -59,6 +59,16 @@ describe('Calendar component', () => {
                 const yearEl = monthSwitcher.find('.date_displaying-year');
                 expect(yearEl.text()).toEqual('2022');
             });
+
+            it('have an icon-chevron - left', () => {
+                const iconChevron = monthSwitcher.find('icon-chevron-stub[chevron="left"]');
+                expect(iconChevron.exists()).toBeTruthy();
+            });
+
+            it('have an icon-chevron - right', () => {
+                const iconChevron = monthSwitcher.find('icon-chevron-stub[chevron="right"]');
+                expect(iconChevron.exists()).toBeTruthy();
+            });
         })
     })
 });
