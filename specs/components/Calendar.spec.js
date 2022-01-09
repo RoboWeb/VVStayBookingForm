@@ -79,7 +79,49 @@ describe('Calendar component', () => {
 
             it('exists', () => {
                 expect(weekDays.exists()).toBeTruthy();
+            });
+
+            it('have 7 child elements with the proper short week name each', () => {
+                const items = weekDays.findAll('.week-days_day-name');
+                expect(items).toHaveLength(7);
+
+                expect(items[0].text()).toBe('Mon');
+                expect(items[3].text()).toBe('Thu');
+                expect(items[6].text()).toBe('Sun');
+            });
+        });
+
+        describe('calendar page with days (month element) - for mocked month (February)', () => {
+            let page;
+
+            beforeEach(() => {
+                page = wrapper.find('.month');
+            });
+
+            it('exists', () => {
+                expect(page.exists()).toBeTruthy();
+            });
+
+            it('have a days (all)', () => {
+                const days = page.findAll('.month_day');
+                expect(days).toHaveLength(35);
+            });
+
+            it('have a 1 day of prev month', () => {
+                const prevDays = page.findAll('.is-prev-month');
+                expect(prevDays).toHaveLength(1);
+            });
+
+            it('have a 6 days of next month', () => {
+                const nextDays = page.findAll('.is-next-month');
+                expect(nextDays).toHaveLength(6);
             })
-        })
+
+            it('have a 28 days of current (mocked) month', () => {
+                const currentDays = page.findAll('.month_day:not(.is-prev-month):not(.is-next-month)');
+                console.log(currentDays.length);
+            })
+
+        });
     })
 });
