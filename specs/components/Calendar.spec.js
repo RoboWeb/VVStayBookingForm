@@ -118,10 +118,26 @@ describe('Calendar component', () => {
             })
 
             it('have a 28 days of current (mocked) month', () => {
-                const currentDays = page.findAll('.month_day:not(.is-prev-month):not(.is-next-month)');
-                console.log(currentDays.length);
-            })
+                const currentDays = page.findAll('.month_day:not(.is-prev-month,.is-next-month)');
+                expect(currentDays).toHaveLength(28);
+            });
 
+            it('have a 6 selected days', () => {
+                const selected = page.findAll('.is-selected');
+                expect(selected).toHaveLength(6);
+            });
+
+            it('have 1 selected day what is first of reservation', () => {
+                const beginDay = page.findAll('.is-begin');
+                expect(beginDay).toHaveLength(1);
+                expect(beginDay[0].text()).toEqual('5');
+            });
+
+            it('have 1 selected day what is last of reservation', () => {
+                const endDay = page.findAll('.is-end');
+                expect(endDay).toHaveLength(1);
+                expect(endDay[0].text()).toEqual('10');
+            });
         });
     })
 });

@@ -19,7 +19,7 @@
       <div 
         class="month_day" 
         v-for="day in page.days"
-        :class="{'is-prev-month': isPrevDate(day), 'is-next-moth': isNextDate(day), 'is-selected': isSelected(day), 'is-begin': isBegin(day), 'is-end': isEnd(day) }"
+        :class="{'is-prev-month': isPrevDate(day), 'is-next-month': isNextDate(day), 'is-selected': isSelected(day), 'is-begin': isBegin(day), 'is-end': isEnd(day) }"
       >
         <span @click="setNewReservationDates(day)" >{{ day.day.numeric }}</span>
       </div>
@@ -147,7 +147,7 @@ export default {
       padding: 8px 4px 5px 4px;
       position: relative;
       &.is-prev-month,
-      &.is-next-moth,
+      &.is-next-month,
       &.is-unavailable {
         color: var(--primary-color-lighter);
       }
