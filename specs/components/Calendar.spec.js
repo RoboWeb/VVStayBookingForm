@@ -249,4 +249,81 @@ describe('Calendar component with different props passed to it', () => {
         });
     });
 
+    describe('property `reservation` with end date as null', () => {
+        let wrapper;
+
+        beforeEach(() => {
+            wrapper = mount(Calendar, {
+                props: {...default_mockedProps, reservation: {begin: new DateTime(mocked_reservation_begin), end: null}},
+                global: {
+                    stubs: {iconChevron: true}
+                }
+            });
+        });
+   
+        describe('@event `change` after click on day', () => {
+            let page, days;
+
+            beforeEach(() => {
+                page = wrapper.find('.month');
+                days = page.findAll('.month_day');
+            });
+
+            describe('the new day is after the `begin date`', () => {
+                it('emit `change` with the new `end date` and not changed the `begin date`', () => {
+                    days[7].trigger('click');
+                    expect(wrapper.emitted()).toHaveProperty('change');
+                    expect(wrapper.emitted().change[0][0]).toEqual({
+                        begin: '2022-02-05T11:00:00.000Z',
+                        end: '2022-02-07T11:00:00.000Z'
+                    });
+                });
+            });
+
+            describe('the new day is before the `begin date`', () => {
+                it('emit `change` with the `end date` equal previous the `begin day` and the `begin date` with new date', () => {
+                    days[3].trigger('click');
+                    expect(wrapper.emitted()).toHaveProperty('change');
+                    expect(wrapper.emitted().change[0][0]).toEqual({
+                        begin: '2022-02-03T11:00:00.000Z',
+                        end: '2022-02-05T11:00:00.000Z'
+                    });
+                });
+            });
+        });
+    });
+
+    describe('property `reservation` with the begin and end date as null', () => {
+        let wrapper;
+
+        beforeEach(() => {
+            wrapper = mount(Calendar, {
+                props: {...default_mockedProps, reservation: {begin: null, end: null}},
+                global: {
+                    stubs: {iconChevron: true}
+                }
+            });
+        });
+   
+        describe('@event `change` after click on day', () => {
+            let page, days;
+
+            beforeEach(() => {
+                page = wrapper.find('.month');
+                days = page.findAll('.month_day');
+            });
+
+
+            it('emit `change` with the new `begin date` and the `end date` as null', () => {
+                days[7].trigger('click');
+                expect(wrapper.emitted()).toHaveProperty('change');
+                expect(wrapper.emitted().change[0][0]).toEqual({
+                    begin: '2022-02-07T11:00:00.000Z',
+                    end: null
+                });
+            });
+         
+        });
+    });
+
 });
